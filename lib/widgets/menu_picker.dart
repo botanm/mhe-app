@@ -70,11 +70,18 @@ class _MenuPickerState extends State<MenuPicker> {
 
   void get _runInInitAndUpdate {
     if (widget.initialSelected.isEmpty || widget.allElements.isEmpty) {
+      // If either initialSelected or allElements is empty, set _selectedContainer to an empty list
       _selectedContainer = [];
     } else {
-      _selectedContainer = widget.initialSelected.map((se) {
-        return widget.allElements.firstWhere((e) => e['id'] == se);
-      }).toList();
+      // If both initialSelected and allElements have values, process them
+      _selectedContainer = widget.initialSelected
+          .map((se) => widget.allElements.firstWhere(
+                (e) => e['id'] == se,
+                orElse: () =>
+                    <String, dynamic>{}, // Return an empty Map<String, dynamic>
+              ))
+          .where((element) => element.isNotEmpty) // Filter out empty maps
+          .toList();
     }
   }
 
@@ -161,8 +168,8 @@ class _MenuPickerState extends State<MenuPicker> {
         : [retrieveSelected]);
 
     // send callback
-    final List<int> selectedIds =
-        _selectedContainer.map((e) => e['id'] as int).toList();
+    final List<dynamic> selectedIds =
+        _selectedContainer.map((e) => e['id']).toList();
     widget.selectedHandler(
         widget.multipleSelectionsAllowed ? selectedIds : selectedIds[0]);
   }

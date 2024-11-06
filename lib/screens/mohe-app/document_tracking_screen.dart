@@ -4,93 +4,179 @@ import 'package:provider/provider.dart';
 
 import '../../constants/app_constants.dart';
 import '../../providers/basics.dart';
+import '../../providers/i18n.dart';
+import '../../utils/services/http_exception.dart';
+import '../../utils/utils.dart';
 import '../../widgets/advanced_search.dart';
 import '../../widgets/responsive.dart';
 import '../../widgets/user_search_form.dart';
 import 'colorful_line_widget.dart';
+import 'doc_search_form.dart';
+import 'document_tracking_stepper.dart';
 import 'qr_and_barcode_screen.dart';
 
-class DocumentTrackingScreen extends StatelessWidget {
+class DocumentTrackingScreen extends StatefulWidget {
   static const routeName = '/documentTracking';
 
   const DocumentTrackingScreen({super.key});
+
+  @override
+  State<DocumentTrackingScreen> createState() => _DocumentTrackingScreenState();
+}
+
+class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
+  late final i18n i;
+  late final Basics bpr;
+
+  bool _isLoading = false;
+  late Future<void> _futureInstance;
+  bool _isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      bpr = Provider.of<Basics>(context);
+      i = Provider.of<i18n>(context, listen: false);
+      _futureInstance = _runFetchAndSetInitialBasics();
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  Future<void> _runFetchAndSetInitialBasics() async {
+    await bpr.fetchAndSetDocHistoryMaps();
+
+    return;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Basics bpr = Provider.of<Basics>(context, listen: false);
+    print(
+        '++++++++++++++++++++++++     DocumentTrackingScreen build     ++++++++++++++++++++++++');
+    // final Basics bpr = Provider.of<Basics>(context, listen: false);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 12),
-            const ColorfulLine(
-              height: 2,
-              // width: 300,
-              colors: [
-                kPrimaryLightColor,
-                kPrimaryMediumColor,
-                kPrimaryColor,
-                Colors.orange,
-              ],
-            ),
-            // History Search Option
-            _buildOptionCard(
-              context: context,
-              icon: Icons.history,
-              title: 'نوسراوەکانی پێشتر',
-              subtitle: 'ئەو نوسراوانەی پێشتر بەدوای گەڕاوی',
-              onTap: () {
-                // Navigate to History Search Page
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HistorySearchPage()));
-              },
-            ),
+        child: SingleChildScrollView(
+          child: FutureBuilder(
+            future: _futureInstance,
+            builder: (ctx, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                return Column(
+                  children: [
+                    const SizedBox(height: 12),
+                    const ColorfulLine(
+                      height: 2,
+                      colors: [
+                        kPrimaryLightColor,
+                        kPrimaryMediumColor,
+                        kPrimaryColor,
+                        Colors.orange,
+                      ],
+                    ),
+                    // History Search Option
+                    _buildOptionCard(
+                      context: context,
+                      icon: Icons.history,
+                      title: 'نوسراوەکانی پێشتر',
+                      subtitle: 'ئەو نوسراوانەی پێشتر بەدوای گەڕاوی',
+                      onTap: () {
+                        // Navigate to History Search Page
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HistorySearchPage()));
+                      },
+                    ),
 
-            // Manual Enter Document Data Option
-            _buildOptionCard(
-              context: context,
-              icon: Icons.edit,
-              title: 'گەڕانی نوسراو',
-              subtitle: 'زانیاری نوسراو بنوسە',
-              onTap: () {
-                UserSearchForm qrandBarCode = const UserSearchForm();
-                _onTap(context, qrandBarCode, "گەڕانی نوسراو");
-              },
-            ),
+                    // Manual Enter Document Data Option
+                    _buildOptionCard(
+                      context: context,
+                      icon: Icons.edit,
+                      title: 'گەڕانی نوسراو',
+                      subtitle: 'زانیاری نوسراو بنوسە',
+                      onTap: () {
+                        DocSearchForm qrAndBarCode = DocSearchForm(
+                          onSelect: (Map<String, dynamic> docSearchData) {
+                            _onSubmit(docSearchData);
+                          },
+                        );
+                        _onTap(context, qrAndBarCode, "گەڕانی نوسراو");
+                      },
+                    ),
 
-            // QR and Barcode Scanner Option
-            _buildOptionCard(
-              context: context,
-              icon: Icons.qr_code_scanner,
-              title: 'کیو ئاڕکۆد',
-              subtitle: 'نوسراوەکە سکان بکە',
-              onTap: () {
-                QRBarcodeScannerScreen qrandBarCode = QRBarcodeScannerScreen(
-                  onDetect: (BarcodeCapture capture) {
-                    final List<Barcode> barcodes = capture.barcodes;
-                    final Barcode barcode = barcodes.first;
-                    final code = barcode.rawValue ?? '---';
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Scanned Code: $code'),
-                    ));
+                    // QR and Barcode Scanner Option
+                    _buildOptionCard(
+                      context: context,
+                      icon: Icons.qr_code_scanner,
+                      title: 'کیو ئاڕکۆد',
+                      subtitle: 'نوسراوەکە سکان بکە',
+                      onTap: () {
+                        QRBarcodeScannerScreen qrandBarCode =
+                            QRBarcodeScannerScreen(
+                          onDetect: (BarcodeCapture capture) {
+                            final List<Barcode> barcodes = capture.barcodes;
+                            final Barcode barcode = barcodes.first;
+                            final code = barcode.rawValue ?? '---';
 
-                    Navigator.pop(context);
-                    // print('Scanned Code: $code');
-
-                    // for (final barcode in barcodes) {
-                    //   print(barcode.rawValue);
-                    // }
-                  },
+                            Map<String, String>? urlData =
+                                Utils.extractDocSearchUrlData(code);
+                            if (urlData != null) {
+                              _onSubmit(urlData);
+                              Navigator.pop(context);
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text('کۆدەکەت دروست نییە'),
+                              ));
+                            }
+                          },
+                        );
+                        _onTap(context, qrandBarCode, "کیوئاڕکۆد");
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    const DocumentTrackingStepper(),
+                    if (bpr.searchedDocTrackingData.isNotEmpty)
+                      _buildToggleHistoryStatus(),
+                    const SizedBox(height: 16),
+                  ],
                 );
-                _onTap(context, qrandBarCode, "کیوئاڕکۆد");
-              },
-            ),
-          ],
+              }
+            },
+          ),
         ),
       ),
+    );
+  }
+
+  FloatingActionButton _buildToggleHistoryStatus() {
+    bool isDocInHistory = bpr.getDocHistoryStatus(bpr.docSearchData);
+
+    IconData fabIcon = isDocInHistory ? Icons.delete : Icons.add;
+    String fabText = isDocInHistory ? 'سڕینەوە' : 'زیادکردن';
+
+    // then make the onPressed to call the function to toggle the status
+    void toggleDocHistoryStatus() {
+      setState(() {
+        bpr.toggleDocHistoryStatus(bpr.docSearchData, false);
+      });
+    }
+
+    // then return the floating action button
+    return FloatingActionButton.extended(
+      onPressed: toggleDocHistoryStatus,
+      label: Text(
+        fabText,
+        style: const TextStyle(color: Colors.white),
+      ),
+      icon: Icon(fabIcon, color: Colors.white),
+      backgroundColor: kPrimaryColor,
     );
   }
 
@@ -159,6 +245,47 @@ class DocumentTrackingScreen extends StatelessWidget {
         onTap: onTap,
       ),
     );
+  }
+
+  Future<void> _onSubmit(Map<String, dynamic> data) async {
+    // if (!_formKey.currentState!.validate()) {
+    //   // Invalid!
+    //   return;
+    // }
+    // _formKey.currentState!.save();
+    setState(() => _isLoading = true);
+
+    try {
+      await bpr.searchDoc(data);
+
+      // Navigator.of(context)
+      //     .pop(); // to pop off in the navigator
+    } on HttpException {
+      var errorMessage = i.tr('m58');
+      // String e = error.toString();
+      // if (e.contains('username already exists')) {
+      //   errorMessage = i.tr('m45');
+      // }
+      // if (e.contains('EMAIL_EXISTS')) {
+      //   errorMessage = 'This email address is already in use.';
+      // } else if (e.contains('INVALID_EMAIL')) {
+      //   errorMessage = 'This is not a valid email address';
+      // } else if (e.contains('WEAK_PASSWORD')) {
+      //   errorMessage = 'This password is too weak.';
+      // } else if (e.contains('EMAIL_NOT_FOUND')) {
+      //   errorMessage = 'Could not find a user with that email.';
+      // } else if (e.contains('INVALID_PASSWORD')) {
+      //   errorMessage = 'Invalid password.';
+      // }
+      Utils.showErrorDialog(context, errorMessage);
+    } catch (error) {
+      String errorMessage = error.toString(); // i.tr('m14');
+      Utils.showErrorDialog(context, errorMessage);
+    }
+
+    if (mounted) {
+      setState(() => _isLoading = false);
+    }
   }
 }
 

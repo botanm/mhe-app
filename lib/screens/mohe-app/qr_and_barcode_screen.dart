@@ -90,7 +90,8 @@ class _QRBarcodeScannerScreenState extends State<QRBarcodeScannerScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
               backgroundColor: kPrimaryColor,
-              content: Text('No barcode or QR code found in the image.')),
+              content: Text('هیچ کۆدێك نەدۆزرایەوە',
+                  textDirection: TextDirection.rtl)),
         );
       }
     }
@@ -98,10 +99,10 @@ class _QRBarcodeScannerScreenState extends State<QRBarcodeScannerScreen>
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final scanBoxHeight = screenHeight * 0.4;
-    final scanBoxTop = screenHeight * 0.3;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double scanBoxHeight = screenHeight * 0.4;
+    final double scanBoxTop = screenHeight * 0.3;
 
     return Scaffold(
       body: Column(
@@ -119,11 +120,10 @@ class _QRBarcodeScannerScreenState extends State<QRBarcodeScannerScreen>
                   onDetect: (BarcodeCapture capture) async {
                     if (_hasScanned) return;
 
-                    final List<Barcode> codes =
-                        capture.barcodes.where((barcode) {
+                    final List<Barcode> codes = capture.barcodes.where((code) {
                       return _isQRCode
-                          ? barcode.format == BarcodeFormat.qrCode
-                          : barcode.format != BarcodeFormat.qrCode;
+                          ? code.format == BarcodeFormat.qrCode
+                          : code.format != BarcodeFormat.qrCode;
                     }).toList();
 
                     if (codes.isNotEmpty) {

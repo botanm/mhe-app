@@ -21,6 +21,7 @@ class LocalStorageService {
   static const _keyMe = 'me';
   static const _keyMyQuestions = 'myQuestions';
   static const _keyBookmarks = 'bookmarks';
+  static const _keyDocHistory = 'docHistory';
 
   static Future<void> initialize() async {
     await Hive.initFlutter();
@@ -218,8 +219,58 @@ class LocalStorageService {
       print('Error removing bookmark: $e');
     }
   }
-  //   static Future<void> removeInMyQuestion(BuildContext context, String id) async {
-  //   try {
+
+// Set a new document history in the local storage
+  static Future<void> setDocHistory(Map<String, dynamic> data) async {
+    try {
+      String? value = _localStorageBox.get(_keyDocHistory) as String?;
+      print('data:add ${value}');
+      if (value == null) {
+        value = jsonEncode([data]);
+      } else {
+        List<Map<String, dynamic>> newList =
+            List<Map<String, dynamic>>.from(jsonDecode(value));
+        newList.add(data); // Add to the end of the list
+        // _newList.insert(0, data); // Uncomment to add to the start of the list
+        value = jsonEncode(newList);
+      }
+      await _localStorageBox.put(_keyDocHistory, value);
+    } catch (e) {
+      print('Error setting document history: $e');
+    }
+  }
+
+// Get the list of document histories from local storage
+  static Future<List<Map<String, dynamic>>?> getDocHistory() async {
+    try {
+      final String? value = _localStorageBox.get(_keyDocHistory) as String?;
+      print('data:get ${value}');
+
+      return value == null
+          ? null
+          : List<Map<String, dynamic>>.from(jsonDecode(value));
+    } catch (e) {
+      print('Error getting document history: $e');
+      return null;
+    }
+  }
+
+// Remove a document history from the list in local storage
+  static Future<void> removeInDocHistory(Map<String, dynamic> data) async {
+    try {
+      String? value = _localStorageBox.get(_keyDocHistory) as String?;
+      print('data:remove ${value}');
+      if (value != null) {
+        List<Map<String, dynamic>> newList =
+            List<Map<String, dynamic>>.from(jsonDecode(value));
+        newList.removeWhere((element) => element['id'] == data['id']);
+        value = jsonEncode(newList);
+      }
+      await _localStorageBox.put(_keyDocHistory, value);
+    } catch (e) {
+      print('Error removing document history: $e');
+    }
+  }
   //     String? value = _localStorageBox.get(_keyMyQuestions) as String?;
   //     if (value != null) {
   //       List<int> newList = List<int>.from(jsonDecode(value));

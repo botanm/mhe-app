@@ -39,6 +39,7 @@ String committee = buildApi('/api/Mobile/Employee/GetEmployeeCommittees/');
 String reward = buildApi('/api/Mobile/Employee/GetEmployeeRewards/');
 String research = buildApi('/api/Mobile/Employee/GetEmployeeResearches/');
 String docTrack = buildApi('/api/Mobile/Tracks/');
+String branch = buildApi('/api/Mobile/Default/Branches');
 String user = buildApi('/api/user/');
 String centerReps = buildApi('/api/centerReps/');
 String me = buildApi('/api/me/');

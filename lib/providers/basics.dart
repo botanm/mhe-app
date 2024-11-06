@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+import '../utils/services/local_storage_service.dart';
 import '/constants/api_path.dart' as endpoints;
 import 'package:http/http.dart' as http;
 
@@ -25,19 +26,26 @@ class Basics with ChangeNotifier {
   List<dynamic> committees = [];
   List<dynamic> rewards = [];
   List<dynamic> researches = [];
+  List<dynamic> _searchedDocTrackingData = [];
+
+  static List<dynamic> _branches = [];
+
+  List<dynamic> get branches => [..._branches];
 
   Map<String, dynamic> salarySearchData = {
     "month": DateTime.now().month,
     "year": DateTime.now().year,
   };
 
-  Map<String, dynamic>? docSearchData = {
-    "refNo": null,
-    "refDate": null,
-    "branchId": null,
+  Map<String, String> docSearchData = {
+    "refNo": "",
+    "refDate": "",
+    "branchId": "",
   };
 
   Map<String, dynamic> get salary => {..._salary};
+  List<dynamic> get searchedDocTrackingData =>
+      [..._searchedDocTrackingData.reversed];
 
   static List<dynamic> _roles = [];
   static List<dynamic> _privileges = [];
@@ -719,28 +727,55 @@ class Basics with ChangeNotifier {
 
   Future<void> searchDoc(Map<String, dynamic> dsd) async {
     try {
-      http.MultipartRequest request = http.MultipartRequest(
-        'POST',
-        Uri.parse(endpoints.docTrack),
-      );
+      // Set up the request
+      final Uri url = Uri.parse(endpoints.docTrack);
+      final request = http.MultipartRequest('POST', url);
 
-      request.fields['refNo'] = dsd['refNo'].toString();
-      request.fields['refDate'] = dsd['refDate'].toString();
-      request.fields['branchId'] = dsd['branchId'].toString();
+      // Prepare request fields
+      docSearchData = {
+        'refNo': dsd['refNo'].toString(),
+        'refDate': dsd['refDate'].toString(),
+        'branchId': dsd['branchId'].toString(),
+      };
+      request.fields.addAll(docSearchData);
 
-      // Sending the request and waiting for the response
+      // Send the request and wait for the response
       final streamedResponse = await request.send();
 
-      // Convert the streamed response into a normal Response object
-      final http.Response res =
+      // Convert streamed response to a standard Response
+      final http.Response response =
           await http.Response.fromStream(streamedResponse);
+
+      // Decode response body as UTF-8 to handle special characters
+      final String utf8DecodedData = utf8.decode(response.bodyBytes);
+      final Map<String, dynamic> decodedData = jsonDecode(utf8DecodedData);
+
+      // Handle response status and data
+      if (decodedData['state'] == -1) {
+        throw decodedData['msg'] ?? 'An unknown error occurred.';
+      }
+
+      // Assign decoded data to _searchedDocTrackingData
+      _searchedDocTrackingData = decodedData['data'] ?? [];
+      notifyListeners();
+    } on FormatException {
+      // Handle JSON decoding issues
+      throw Exception('Error decoding the server response.');
+    } on http.ClientException {
+      // Handle connection issues
+      throw Exception('Failed to connect to the server.');
+    } catch (e) {
+      // General error handler
+      throw e;
+    }
+  }
+
+  Future<void> fetchAndSetBranches() async {
+    try {
+      final http.Response res = await http.get(Uri.parse(endpoints.branch));
       final String utf8DecodedData = utf8.decode(res.bodyBytes);
       // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
-      final decodedData = jsonDecode(utf8DecodedData);
-      if (decodedData['state'] == -1) {
-        throw '$decodedData';
-      }
-      leaves = jsonDecode(utf8DecodedData)['msg'];
+      _branches = jsonDecode(utf8DecodedData);
     } catch (e) {
       rethrow;
     }
@@ -919,6 +954,7 @@ class Basics with ChangeNotifier {
     // https://pub.dev/packages/http
 
     await Future.wait([
+      fetchAndSetBranches(),
       // fetchAndSetRoles(),
       // fetchAndSetPrivileges(),
       // fetchAndSetDialects(),
@@ -1012,6 +1048,42 @@ class Basics with ChangeNotifier {
       }
     } catch (e) {
       // print('e: $e');
+      rethrow;
+    }
+  }
+
+  List<Map<String, dynamic>> _docHistoryMaps = [];
+  List<Map<String, dynamic>> get docHistoryMaps => [..._docHistoryMaps];
+
+  Future<void> fetchAndSetDocHistoryMaps() async {
+    _docHistoryMaps = await LocalStorageService.getDocHistory() ?? [];
+    print('data:fetch ${await LocalStorageService.getDocHistory()}');
+  }
+
+  bool getDocHistoryStatus(Map<String, String> data) {
+    return _docHistoryMaps.any((element) =>
+        element['refNo'] == data['refNo'] &&
+        element['refDate'] == data['refDate'] &&
+        element['branchId'] == data['branchId']);
+  }
+
+  Future<void> toggleDocHistoryStatus(
+      Map<String, String> data, bool triggerNotifyListeners) async {
+    try {
+      if (!getDocHistoryStatus(data)) {
+        await LocalStorageService.setDocHistory(data);
+        _docHistoryMaps.add(data);
+      } else {
+        await LocalStorageService.removeInDocHistory(data);
+        _docHistoryMaps.removeWhere((element) =>
+            element['refNo'] == data['refNo'] &&
+            element['refDate'] == data['refDate'] &&
+            element['branchId'] == data['branchId']);
+      }
+      if (triggerNotifyListeners) {
+        notifyListeners();
+      }
+    } catch (e) {
       rethrow;
     }
   }

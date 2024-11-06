@@ -285,4 +285,35 @@ class Utils {
       );
     }
   }
+
+  // Method to extract branchId, refDate, and refNo from the URL if the structure matches
+  static Map<String, String>? extractDocSearchUrlData(String url) {
+    // Parsing the URL
+    Uri uri = Uri.parse(url);
+
+    // Check if the URL matches the expected structure
+    // We expect at least 8 path segments based on the provided URL structure
+    if (uri.pathSegments.length != 6) {
+      return null; // Invalid structure, return null
+    }
+
+    // Check if the known parts of the URL structure are correct
+    if (uri.pathSegments[0] != 'api' ||
+        uri.pathSegments[1] != 'Mobile' ||
+        uri.pathSegments[2] != 'Tracks') {
+      return null; // Invalid structure, return null
+    }
+
+    // Extracting the necessary parts from the path segments
+    String branchId = uri.pathSegments[3]; // 4th segment (index 3)
+    String refDate = uri.pathSegments[4]; // 5th, 6th, 7th segments
+    String refNo = uri.pathSegments[5]; // 8th segment (index 7)
+
+    // Return the extracted data as a map
+    return {
+      'branchId': branchId,
+      'refDate': refDate,
+      'refNo': refNo,
+    };
+  }
 }
