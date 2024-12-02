@@ -224,7 +224,6 @@ class LocalStorageService {
   static Future<void> setDocHistory(Map<String, dynamic> data) async {
     try {
       String? value = _localStorageBox.get(_keyDocHistory) as String?;
-      print('data:add ${value}');
       if (value == null) {
         value = jsonEncode([data]);
       } else {
@@ -244,7 +243,6 @@ class LocalStorageService {
   static Future<List<Map<String, dynamic>>?> getDocHistory() async {
     try {
       final String? value = _localStorageBox.get(_keyDocHistory) as String?;
-      print('data:get ${value}');
 
       return value == null
           ? null
@@ -259,11 +257,13 @@ class LocalStorageService {
   static Future<void> removeInDocHistory(Map<String, dynamic> data) async {
     try {
       String? value = _localStorageBox.get(_keyDocHistory) as String?;
-      print('data:remove ${value}');
       if (value != null) {
         List<Map<String, dynamic>> newList =
             List<Map<String, dynamic>>.from(jsonDecode(value));
-        newList.removeWhere((element) => element['id'] == data['id']);
+        newList.removeWhere((element) =>
+            element['refNo'] == data['refNo'] &&
+            element['refDate'] == data['refDate'] &&
+            element['branchId'] == data['branchId']);
         value = jsonEncode(newList);
       }
       await _localStorageBox.put(_keyDocHistory, value);

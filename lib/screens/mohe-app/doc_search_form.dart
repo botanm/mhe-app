@@ -79,18 +79,21 @@ class _DocSearchFormState extends State<DocSearchForm> {
   Widget build(BuildContext context) {
     print(
         '++++++++++++++++++++++++     DocSearchForm build     ++++++++++++++++++++++++');
-    return Directionality(
-      textDirection: i.isRtl ? TextDirection.rtl : TextDirection.ltr,
-      child: Form(
-        key: _formKey,
-        child: LayoutBuilder(
-          builder: (ctx, constraints) => SingleChildScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior
-                .onDrag, // to hide (pop off in the navigator) soft input keyboard with tap on screen
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: IntrinsicHeight(
-                child: _buildFormElements(),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Directionality(
+        textDirection: i.isRtl ? TextDirection.rtl : TextDirection.ltr,
+        child: Form(
+          key: _formKey,
+          child: LayoutBuilder(
+            builder: (ctx, constraints) => SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior
+                  .onDrag, // to hide (pop off in the navigator) soft input keyboard with tap on screen
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: _buildFormElements(),
+                ),
               ),
             ),
           ),

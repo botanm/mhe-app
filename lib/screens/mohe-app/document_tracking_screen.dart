@@ -8,6 +8,7 @@ import '../../providers/i18n.dart';
 import '../../utils/services/http_exception.dart';
 import '../../utils/utils.dart';
 import '../../widgets/advanced_search.dart';
+import '../../widgets/menu_picker.dart';
 import '../../widgets/responsive.dart';
 import '../../widgets/user_search_form.dart';
 import 'colorful_line_widget.dart';
@@ -45,6 +46,7 @@ class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
 
   Future<void> _runFetchAndSetInitialBasics() async {
     await bpr.fetchAndSetDocHistoryMaps();
+    await bpr.fetchDocHistorys();
 
     return;
   }
@@ -80,19 +82,13 @@ class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
                       ],
                     ),
                     // History Search Option
-                    _buildOptionCard(
-                      context: context,
-                      icon: Icons.history,
-                      title: 'نوسراوەکانی پێشتر',
-                      subtitle: 'ئەو نوسراوانەی پێشتر بەدوای گەڕاوی',
-                      onTap: () {
-                        // Navigate to History Search Page
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HistorySearchPage()));
-                      },
-                    ),
+                    // _buildOptionCard(
+                    //   context: context,
+                    //   icon: Icons.history,
+                    //   title: 'نوسراوەکانی پێشتر',
+                    //   subtitle: 'ئەو نوسراوانەی پێشتر بەدوای گەڕاوی',
+                    //   onTap: () {},
+                    // ),
 
                     // Manual Enter Document Data Option
                     _buildOptionCard(
@@ -140,6 +136,9 @@ class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
                         _onTap(context, qrandBarCode, "کیوئاڕکۆد");
                       },
                     ),
+                    const SizedBox(height: 8),
+                    _buildHistoryMenuPicker,
+
                     const SizedBox(height: 16),
                     const DocumentTrackingStepper(),
                     if (bpr.searchedDocTrackingData.isNotEmpty)
@@ -164,7 +163,7 @@ class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
     // then make the onPressed to call the function to toggle the status
     void toggleDocHistoryStatus() {
       setState(() {
-        bpr.toggleDocHistoryStatus(bpr.docSearchData, false);
+        bpr.toggleDocHistoryStatus(bpr.docSearchData, true);
       });
     }
 
@@ -223,6 +222,40 @@ class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
             );
           });
     }
+  }
+
+  MenuPicker get _buildHistoryMenuPicker {
+    return MenuPicker(
+      allElements: bpr.docHistoryMaps,
+      maSecName: ['refNo', 'refDate'],
+      initialSelected: bpr.docSearchData['id'] == ''
+          ? []
+          : [
+              bpr.docSearchData['id']
+            ], // _userData['city'] == null ? [] : [_userData['city']], // WHEN  _userData['city'] IS NOT array
+      multipleSelectionsAllowed:
+          false, // Set to false to allow only single selection.
+      // If set to true, ensure _authData['city'] is a List.
+      // Otherwise, selectedHandler will return List<int> instead of int.
+      selectedHandler: (selectedDocId) {
+        Map<String, dynamic> selectedDoc = bpr.docHistoryMaps.firstWhere(
+          (doc) => doc['id'] == selectedDocId,
+          orElse: () => {},
+        );
+        _onSubmit(selectedDoc);
+      },
+      isScrollControlled:
+          false, //to Maximize BottomSheet, if you set to "true", assign "heightFactor" < 1 ,ex 0.9 OTHERWISE 1
+      heightFactor: 1,
+      title: "گەڕانەکانی پێشتر",
+      // borderRadius: 40.0, // default
+      selectedColorOfPicker: kPrimaryColor,
+      selectButtonText: i.tr('Continue'),
+      searchVisible: false,
+      isSecondaryVisible: true,
+      isEnabled: !_isLoading,
+      isValidated: true,
+    );
   }
 
   // Widget for each search option

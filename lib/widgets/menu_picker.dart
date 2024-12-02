@@ -166,7 +166,6 @@ class _MenuPickerState extends State<MenuPicker> {
     setState(() => _selectedContainer = widget.multipleSelectionsAllowed
         ? retrieveSelected
         : [retrieveSelected]);
-
     // send callback
     final List<dynamic> selectedIds =
         _selectedContainer.map((e) => e['id']).toList();

@@ -15,14 +15,19 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     print('###############    LoginScreen build   ##############');
     return Background(
-      child: SingleChildScrollView(
-        child: Responsive(
-          mobile: (BuildContext context) => const MobileLoginScreen(),
-          largeMobile: (BuildContext context) => const MobileLoginScreen(),
-          tablet: (BuildContext context) => const MobileLoginScreen(),
-          largeTablet: (BuildContext context) => const DesktopLoginScreen(),
-          desktop: (BuildContext context) => const DesktopLoginScreen(),
-          largeDesktop: (BuildContext context) => const DesktopLoginScreen(),
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Responsive(
+            mobile: (BuildContext context) => const MobileLoginScreen(),
+            largeMobile: (BuildContext context) => const MobileLoginScreen(),
+            tablet: (BuildContext context) => const MobileLoginScreen(),
+            largeTablet: (BuildContext context) => const DesktopLoginScreen(),
+            desktop: (BuildContext context) => const DesktopLoginScreen(),
+            largeDesktop: (BuildContext context) => const DesktopLoginScreen(),
+          ),
         ),
       ),
     );

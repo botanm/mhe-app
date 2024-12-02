@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import '../utils/services/local_storage_service.dart';
+import 'package:uuid/uuid.dart';
 import '/constants/api_path.dart' as endpoints;
 import 'package:http/http.dart' as http;
 
@@ -733,11 +734,14 @@ class Basics with ChangeNotifier {
 
       // Prepare request fields
       docSearchData = {
+        'id': dsd.containsKey('id') ? dsd['id'].toString() : '',
         'refNo': dsd['refNo'].toString(),
         'refDate': dsd['refDate'].toString(),
         'branchId': dsd['branchId'].toString(),
       };
-      request.fields.addAll(docSearchData);
+      final fieldsToSend = Map<String, String>.from(docSearchData);
+      fieldsToSend.remove('id');
+      request.fields.addAll(fieldsToSend);
 
       // Send the request and wait for the response
       final streamedResponse = await request.send();
@@ -1057,7 +1061,6 @@ class Basics with ChangeNotifier {
 
   Future<void> fetchAndSetDocHistoryMaps() async {
     _docHistoryMaps = await LocalStorageService.getDocHistory() ?? [];
-    print('data:fetch ${await LocalStorageService.getDocHistory()}');
   }
 
   bool getDocHistoryStatus(Map<String, String> data) {
@@ -1071,18 +1074,25 @@ class Basics with ChangeNotifier {
       Map<String, String> data, bool triggerNotifyListeners) async {
     try {
       if (!getDocHistoryStatus(data)) {
+        data['id'] = const Uuid().v4(); // Add id to the map with uuid
         await LocalStorageService.setDocHistory(data);
         _docHistoryMaps.add(data);
       } else {
         await LocalStorageService.removeInDocHistory(data);
-        _docHistoryMaps.removeWhere((element) =>
-            element['refNo'] == data['refNo'] &&
-            element['refDate'] == data['refDate'] &&
-            element['branchId'] == data['branchId']);
+        _docHistoryMaps.removeWhere((element) => element['id'] == data['id']);
       }
       if (triggerNotifyListeners) {
         notifyListeners();
       }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchDocHistorys() async {
+    try {
+      _docHistoryMaps = await LocalStorageService.getDocHistory() ?? [];
+      notifyListeners();
     } catch (e) {
       rethrow;
     }
