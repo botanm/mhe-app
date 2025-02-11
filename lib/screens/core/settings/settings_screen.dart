@@ -46,7 +46,7 @@ class SettingsScreen extends StatelessWidget {
           children: [
             if (me != null) _settingsHeader(context, i, me),
             const SizedBox(height: defaultPadding),
-            _buildGeneralGroup(context, i),
+            // _buildGeneralGroup(context, i),
             if (me != null)
               _buildSettingsPrivacyGroup(context, i, apr, 1, isSuperuser,
                   isStaff), // (context, i, apr, me['id'], isSuperuser, isStaff),
@@ -73,10 +73,11 @@ class SettingsScreen extends StatelessWidget {
           Container(
               margin: EdgeInsets.only(bottom: bottom),
               child: _buildCoverImage(coverHeight, me)),
-          Positioned(
-            top: 8,
-            child: _buildListTile(context, i, me),
-          ),
+
+          // Positioned(
+          //   top: 8,
+          //   child: _buildListTile(context, i, me),
+          // ),
           Positioned(top: top1, child: _buildAvatarImage(avatarRadius, me))
         ]);
   }
@@ -84,12 +85,13 @@ class SettingsScreen extends StatelessWidget {
   Widget _buildListTile(BuildContext context, i18n i, Map<String, dynamic> me) {
     return GestureDetector(
       onTap: () {
-        final Map<String, dynamic> args = {
-          'editedUserId': me['id'],
-          'isChangePassword': false,
-          'isViewOnly': false
-        };
-        Navigator.popAndPushNamed(context, '/register', arguments: args);
+        // final Map<String, dynamic> args = {
+        //   'editedUserId': me['id'],
+        //   'isChangePassword': false,
+        //   'isViewOnly': false
+        // };
+        // Navigator.popAndPushNamed(context, '/register', arguments: args);
+        Navigator.pop(context);
       },
       child: Column(
         children: [
@@ -120,9 +122,7 @@ class SettingsScreen extends StatelessWidget {
 
   Widget _buildAvatarImage(double avatarRadius, Map<String, dynamic> me) =>
       AvatarWidget(
-        imagePath: me['AnswererProfile'] == null
-            ? null
-            : me['AnswererProfile']['avatar'],
+        imagePath: me['photo'],
         size: avatarRadius,
       );
 

@@ -200,7 +200,7 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
   }
 
   TextFormFieldWidget get _build6 {
-    String dateOnly = info['completedDate'].split(' ')[0];
+    String dateOnly = info['completedDate']?.split(' ')[0] ?? '';
     return TextFormFieldWidget(
       isTextRtl: true,
       initialValue: dateOnly,
@@ -222,7 +222,7 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
   }
 
   TextFormFieldWidget get _build7 {
-    String dateOnly = info['effectiveDate'].split(' ')[0];
+    String dateOnly = info['effectiveDate']?.split(' ')[0] ?? '';
     return TextFormFieldWidget(
       isTextRtl: true,
       initialValue: dateOnly,
@@ -246,7 +246,7 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
   TextFormFieldWidget get _build8 {
     return TextFormFieldWidget(
       isTextRtl: true,
-      initialValue: info['grade'],
+      initialValue: info['grade'].toString(),
       icon: Icons.emoji_events, // icon: null is  default
       // suffixIcon: null, // default is null AND for password is configured by default
       label: 'نمرە',
@@ -267,7 +267,7 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
   TextFormFieldWidget get _build9 {
     return TextFormFieldWidget(
       isTextRtl: true,
-      initialValue: info['docNo'],
+      initialValue: info['docNo'] ?? '',
       icon: Icons.insert_drive_file, // icon: null is  default
       // suffixIcon: null, // default is null AND for password is configured by default
       label: 'ژمارەی نوسراو',
@@ -288,7 +288,7 @@ class _CertificationsScreenState extends State<CertificationsScreen> {
   TextFormFieldWidget get _build10 {
     return TextFormFieldWidget(
       isTextRtl: true,
-      initialValue: info['docDate'],
+      initialValue: info['docDate'] ?? '',
       icon: Icons.date_range, // icon: null is  default
       // suffixIcon: null, // default is null AND for password is configured by default
       label: 'بەرواری نوسراو',

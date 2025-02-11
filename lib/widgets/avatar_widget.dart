@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../constants/app_constants.dart';
 import 'circle_border_widget.dart';
@@ -98,30 +99,37 @@ class CoverWidget extends StatelessWidget {
         // maxNrOfCacheObjects: 100,
       ),
     );
-    if (imagePath == null) {
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: coverBorderRadius,
-          gradient: const LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.white,
-                Colors.white,
-                Colors.white,
-                KScaffoldBackgroundColor,
-                kPrimaryLightColor,
-              ]),
-        ),
-        width: double.infinity,
-        height: coverHeight,
-        child: Icon(Icons.image_outlined, color: color, size: 50),
-      );
-    }
+    // if (imagePath == null) {
+    //   return Container(
+    //     decoration: BoxDecoration(
+    //       borderRadius: coverBorderRadius,
+    //       gradient: const LinearGradient(
+    //           begin: Alignment.topCenter,
+    //           end: Alignment.bottomCenter,
+    //           colors: [
+    //             Colors.white,
+    //             Colors.white,
+    //             Colors.white,
+    //             KScaffoldBackgroundColor,
+    //             kPrimaryLightColor,
+    //           ]),
+    //     ),
+    //     width: double.infinity,
+    //     height: coverHeight,
+    //     child: Icon(Icons.image_outlined, color: color, size: 50),
+    //   );
+    // }
 
     return ClipRRect(
       borderRadius: coverBorderRadius ?? BorderRadius.zero,
-      child: getImage(customCachManager, imagePath!),
+      child: imagePath == null
+          ? SvgPicture.asset(
+              'assets/icons/logo-ministry.svg',
+              width: double.infinity,
+              height: coverHeight,
+              fit: BoxFit.contain,
+            )
+          : getImage(customCachManager, imagePath!),
     );
   }
 

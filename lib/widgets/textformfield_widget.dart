@@ -24,7 +24,7 @@ class TextFormFieldWidget extends StatefulWidget {
   });
 
   final bool isTextRtl;
-  final dynamic initialValue;
+  final String initialValue;
   final IconData? icon;
   final IconButton? suffixIcon;
   final String label;
@@ -85,10 +85,8 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
                 borderSide: BorderSide(color: kPrimaryColor),
               ),
       ),
-
       enabled: widget.enabled,
-      maxLines: widget
-          .maxLines, // Obscured fields cannot be multiline. means '!obscureText || maxLines == 1'
+      maxLines: widget.is_password ? 1 : widget.maxLines,
       obscureText: widget.is_password ? _isVisible : false,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,

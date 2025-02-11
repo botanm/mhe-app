@@ -776,7 +776,9 @@ class Basics with ChangeNotifier {
 
   Future<void> fetchAndSetBranches() async {
     try {
-      final http.Response res = await http.get(Uri.parse(endpoints.branch));
+      // final http.Response res = await http.get(Uri.parse(endpoints.branch));
+      final http.Response res = await http.get(Uri.parse(
+          'https://test.erp.mohe.gov.krd/Mobile/Default/all-branches'));
       final String utf8DecodedData = utf8.decode(res.bodyBytes);
       // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
       _branches = jsonDecode(utf8DecodedData);

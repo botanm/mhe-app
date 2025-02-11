@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mohe_app_1_x_x/screens/mohe-app/scientific_title_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/app_constants.dart';
+import '../providers/auth.dart';
+import 'core/auth/login/login_screen.dart';
 import 'mohe-app/attendance_screen.dart';
 import 'mohe-app/certification_screen.dart';
 import 'mohe-app/committee_screen.dart';
@@ -22,87 +25,101 @@ class LandingScreen extends StatelessWidget {
       'icon': Icons.person_search,
       'label': 'زانیاری کەسی',
       'color': Colors.pink,
-      'route': MeScreen.routeName
+      'route': MeScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.school,
       'label': 'بڕوانامە',
       'color': kPrimaryColor,
-      'route': CertificationsScreen.routeName
+      'route': CertificationsScreen.routeName,
+      'requiresAuth': true
     },
-
     {
       'icon': Icons.attach_money,
       'label': 'مووچە، دەرماڵە',
       'color': Colors.orange,
-      'route': SalaryScreen.routeName
+      'route': SalaryScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.thumb_up_alt_outlined,
       'label': 'سوپاس',
       'color': Colors.greenAccent,
-      'route': ThanksLetterScreen.routeName
+      'route': ThanksLetterScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.business_center_outlined,
       'label': 'نازناوی زانستی',
       'color': Colors.blue,
-      'route': ScientificTitleScreen.routeName
+      'route': ScientificTitleScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.refresh,
       'label': 'دەست بەکاربوونەوە',
       'color': Colors.red,
-      'route': OperateScreen.routeName
+      'route': OperateScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.airplanemode_active_outlined,
       'label': 'مۆڵەت و باڵانس',
       'color': Colors.green,
-      'route': LeaveScreen.routeName
+      'route': LeaveScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.event_available,
       'label': 'ئامادەبوون',
       'color': Colors.orange,
-      'route': AttendanceScreen.routeName
+      'route': AttendanceScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.group_outlined,
       'label': 'شاندکردن',
       'color': Colors.purple,
-      'route': DeputationScreen.routeName
+      'route': DeputationScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.person_search,
       'label': 'باڵانس',
       'color': Colors.pink,
-      'route': CertificationsScreen.routeName
+      'route': CertificationsScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.gavel,
       'label': 'سزا',
       'color': Colors.yellow,
-      'route': PunishmentScreen.routeName
+      'route': PunishmentScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.group,
       'label': 'لێژنە',
       'color': Colors.cyan,
-      'route': CommitteeScreen.routeName
+      'route': CommitteeScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.star_border_outlined,
       'label': 'پاداشت',
       'color': Colors.blue,
-      'route': RewardScreen.routeName
+      'route': RewardScreen.routeName,
+      'requiresAuth': true
     },
     {
       'icon': Icons.biotech,
       'label': 'توێژینەوە',
       'color': Colors.brown,
-      'route': ResearchScreen.routeName
+      'route': ResearchScreen.routeName,
+      'requiresAuth': true
     },
+
     // Add more items with different colors as needed
   ];
 
@@ -110,6 +127,7 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isAuth = Provider.of<Auth>(context).isAuth;
     return Scaffold(
       // backgroundColor: Colors.grey[200], // Background color to match Facebook app
       appBar: AppBar(
@@ -137,7 +155,9 @@ class LandingScreen extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  menuItems[index]['route'],
+                  menuItems[index]['requiresAuth'] && !isAuth
+                      ? LoginScreen.routeName
+                      : menuItems[index]['route'],
                 );
               },
             );

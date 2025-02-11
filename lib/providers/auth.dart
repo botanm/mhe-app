@@ -53,10 +53,12 @@ class Auth with ChangeNotifier {
 
     if (authData.isNotEmpty) {
       // print(" if (authData.isNotEmpty)");
-      endpoint = Uri.parse(endpoints.login);
+      // endpoint = Uri.parse(endpoints.login);
+      endpoint = Uri.parse('https://test.erp.mohe.gov.krd/Mobile/auth/Login/');
       request = http.MultipartRequest(method, endpoint);
 
-      request.fields['BiometricCode'] = authData['username'];
+      // request.fields['BiometricCode'] = authData['username']; // TODO: Delete me later
+      request.fields['Email'] = authData['username'];
       request.fields['Password'] = authData['password'];
     }
 
@@ -90,8 +92,6 @@ class Auth with ChangeNotifier {
       _token = decodedData['data']['accessToken'];
       // _refresh = decodedData['data']['refresh'];
       _userId = decodedData['data']['employeeId'].toString();
-      _me = decodedData['data']['profile'];
-      _me!['photo'] = decodedData['data']['photo'];
 
       // /// _tokenExpiryDate
       // List<String> tokenSplit = _token!.split('.');
@@ -111,9 +111,9 @@ class Auth with ChangeNotifier {
 
       // _refreshLoginTimer();
 
-      // if (authData.isNotEmpty) {
-      //   await fetchAndSetMe();
-      // }
+      if (authData.isNotEmpty) {
+        await fetchAndSetMe();
+      }
 
       Map<String, dynamic> loggedInUserData = {
         'token': _token,
@@ -141,23 +141,23 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> fetchAndSetMe() async {
-    var me = await http.get(Uri.parse(endpoints.me),
-        headers: {'Authorization': 'Bearer $_token'});
+    // var me = await http.get(Uri.parse(endpoints.me),headers: {'Authorization': 'Bearer $_token'});
+    // var me = await http.get(Uri.parse('${endpoints.me}$_userId'));
+    var me = await http.get(Uri.parse(
+        'https://test.erp.mohe.gov.krd/Mobile/Default/GetEmployeeInfo/${_userId}'));
 
     final String utf8DecodedData = utf8.decode(me.bodyBytes);
     // final Map<String, dynamic> decotedMe = jsonDecode(me.body); // can't decode arabic or kurdish or Latin characters
     final Map<String, dynamic> decotedMe = jsonDecode(utf8DecodedData);
 
-    // Map<String, dynamic>? rp = decotedMe['AnswererProfile'];
-    // if (rp != null) {
-    //   rp.update(
-    //       'avatar', (value) => value == null ? null : '$serverAddress$value');
-    //   rp.update('cover_image',
-    //       (value) => value == null ? null : '$serverAddress$value');
-    //   decotedMe.update('AnswererProfile', (value) => rp);
-    // }
+    Map<String, dynamic> mp = decotedMe['employee'];
+    mp.update(
+        'photo', (value) => value == null ? null : '${endpoints.photo}$value');
+    // rp.update('cover_image',(value) => value == null ? null : '$serverAddress$value');
+    decotedMe.update('employee', (value) => mp);
     // print("HHH: ${decotedMe}");
-    _me = decotedMe;
+
+    _me = decotedMe['employee'];
     await LocalStorageService.setMe(jsonEncode(_me));
   }
 
@@ -259,6 +259,65 @@ class Auth with ChangeNotifier {
       }
       // print("HHH res ${res.statusCode}");
       // print("HHH decodedData ${decodedData}");
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String?> registerFirstStepGetEmployeeId(
+      Map<String, dynamic> body) async {
+    try {
+      // var endpoint = Uri.parse(endpoints.registerFirstStepORgetEmployeeId);
+      var endpoint = Uri.parse(
+          'https://test.erp.mohe.gov.krd/mobile/auth/RegisterFirstStep');
+      String method = 'POST';
+      http.MultipartRequest request = http.MultipartRequest(method, endpoint);
+
+      for (var key in body.keys) {
+        request.fields[key] = body[key]!;
+      }
+
+      final streamedResponse = await request.send();
+      final res = await http.Response.fromStream(streamedResponse);
+
+      final String utf8DecodedData = utf8.decode(res.bodyBytes);
+      final decodedData = jsonDecode(utf8DecodedData);
+      if (decodedData['state'] == -1) {
+        throw decodedData['msg'] ?? 'An unknown error occurred.';
+      } else if (decodedData['data'] != null) {
+        return decodedData['data']['employeeId'].toString();
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String?> registerSecondStepSetPassword(
+      Map<String, dynamic> body) async {
+    try {
+      // var endpoint = Uri.parse(endpoints.registerSecondStepSetPassword);
+      var endpoint = Uri.parse(
+          'https://test.erp.mohe.gov.krd/mobile/auth/RegisterSecondStep');
+      String method = 'POST';
+      http.MultipartRequest request = http.MultipartRequest(method, endpoint);
+
+      for (var key in body.keys) {
+        request.fields[key] = body[key]!;
+      }
+
+      final streamedResponse = await request.send();
+      final res = await http.Response.fromStream(streamedResponse);
+
+      final String utf8DecodedData = utf8.decode(res.bodyBytes);
+      final decodedData = jsonDecode(utf8DecodedData);
+
+      if (decodedData['state'] == -1) {
+        throw decodedData['msg'] ?? 'An unknown error occurred.';
+      } else if (decodedData['state'] == 1) {
+        return decodedData['msg'];
+      }
+      return null;
     } catch (e) {
       rethrow;
     }

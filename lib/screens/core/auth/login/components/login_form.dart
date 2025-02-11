@@ -142,9 +142,10 @@ class _LoginFormState extends State<LoginForm> {
         validator: (value) {
           if (value!.isEmpty) {
             return i.tr('m8');
-          } else if (value.length < 8) {
-            return i.tr('m63');
           }
+          // else if (value.length < 8) {
+          //   return i.tr('m63');
+          // }
           return null;
         },
 

@@ -17,11 +17,17 @@ String buildApi(String api) {
   return api;
 }
 
-String login = buildApi('/api/Mobile/Register/Login/');
+String login = buildApi(
+    '/api/Mobile/Register/Login/'); // TODO: I have added temorary url in Auth.dart _authenticate
 String refresh = buildApi('/api/token/refresh/');
 String getOTP = buildApi('/api/forgot-otp/');
+String registerFirstStepORgetEmployeeId = buildApi(
+    '/api/Mobile/Register/RegisterFirstStep/'); // TODO: I have added temorary url in Auth.dart registerFirstStepORgetEmployeeId
+String registerSecondStepSetPassword = buildApi(
+    'https://test.erp.mohe.gov.krd/mobile/auth/RegisterSecondStep'); // TODO: I have added temorary url in Auth.dart registerSecondStepSetPassword
 String verifyOTP = buildApi('/api/verify-otp/');
 String resetPassword = buildApi('/api/reset-password/');
+String photo = buildApi('/api/FileViewr/?fileName=hrms/EmployeePhoto/');
 String certifications = buildApi('/api/Mobile/Certifications');
 String salary = buildApi('/api/Mobile/Employee/GetEmployeeSalaries/');
 String scientificTitles =
@@ -39,10 +45,12 @@ String committee = buildApi('/api/Mobile/Employee/GetEmployeeCommittees/');
 String reward = buildApi('/api/Mobile/Employee/GetEmployeeRewards/');
 String research = buildApi('/api/Mobile/Employee/GetEmployeeResearches/');
 String docTrack = buildApi('/api/Mobile/Tracks/');
-String branch = buildApi('/api/Mobile/Default/Branches');
+String branch = buildApi(
+    '/api/Mobile/Default/Branches'); // TODO: I have added temorary url in basics.dart fetchAndSetBranches
 String user = buildApi('/api/user/');
 String centerReps = buildApi('/api/centerReps/');
-String me = buildApi('/api/me/');
+String me = buildApi(
+    '/api/me/'); // TODO: I have added temorary url in auth.dart fetchAndSetMe
 String answererProfile = buildApi('/api/answerer-profile/');
 String equipment = buildApi('/api/equipment/');
 String role = buildApi('/api/role/');

@@ -244,7 +244,8 @@
     "m93": "Field cannot contain spaces",
     "m94": "This password is too common.",
     "m95": "Follow us on social media",
-    "m96": "Contact Information"
+    "m96": "Contact Information",
+    "m97": "Please enter the email that was entered by the ministry system when your information was recorded. This email will serve as your username and can be used to recover your password if needed."
     
 
 

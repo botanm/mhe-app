@@ -35,10 +35,8 @@ import '../screens/mohe-app/salary_screen.dart';
 import '../screens/mohe-app/scientific_title_screen.dart';
 import '../screens/mohe-app/thanks_letter_screen.dart';
 import '../screens/myquestions_screen.dart';
-import '../screens/new_equipment_screen.dart';
 import '../screens/new_question_screen.dart';
 import '../screens/user_detail_screen.dart';
-import '../screens/answerer_profile_screen.dart';
 import '../screens/splash_screen.dart';
 
 Map<String, Widget Function(BuildContext)> routes = {
@@ -62,7 +60,6 @@ Map<String, Widget Function(BuildContext)> routes = {
   ResearchScreen.routeName: (context) => const ResearchScreen(),
   DocumentTrackingScreen.routeName: (context) => const DocumentTrackingScreen(),
   EquipmentDetailScreen.routeName: (context) => const EquipmentDetailScreen(),
-  AnswererProfileScreen.routeName: (context) => const AnswererProfileScreen(),
   HelpScreen.routeName: (context) => const HelpScreen(),
   ContactInformationScreen.routeName: (context) =>
       const ContactInformationScreen(),
@@ -81,5 +78,4 @@ Map<String, Widget Function(BuildContext)> routes = {
   NewCategoryScreen.routeName: (context) => const NewCategoryScreen(),
   NewSubjectScreen.routeName: (context) => const NewSubjectScreen(),
   NewTopicScreen.routeName: (context) => const NewTopicScreen(),
-  NewEquipmentScreen.routeName: (context) => const NewEquipmentScreen(),
 };

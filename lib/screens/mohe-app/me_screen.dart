@@ -314,7 +314,7 @@ class _MeScreenState extends State<MeScreen> {
   TextFormFieldWidget get _buildScientificTitle {
     return TextFormFieldWidget(
       isTextRtl: true,
-      initialValue: info['scientificTitleTypeName'],
+      initialValue: info['scientificTitleTypeName'] ?? '',
       icon: Icons.business_center_outlined, // icon: null is  default
       // suffixIcon: null, // default is null AND for password is configured by default
       label: 'نازناوی زانستی',
@@ -335,7 +335,7 @@ class _MeScreenState extends State<MeScreen> {
   TextFormFieldWidget get _buildJobTitle {
     return TextFormFieldWidget(
       isTextRtl: true,
-      initialValue: info['lastJobTitle'],
+      initialValue: info['lastJobTitle'] ?? '',
       icon: Icons.trending_up, // icon: null is  default
       // suffixIcon: null, // default is null AND for password is configured by default
       label: 'ناونیشان',

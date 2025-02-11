@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../constants/app_constants.dart';
 import '../providers/i18n.dart';
+import '../screens/core/auth/login/login_screen.dart';
 import '../screens/dashboard/components/delete_widget.dart';
 import '../screens/new_answer_screen.dart';
 import '../widgets/responsive.dart';
@@ -152,6 +153,75 @@ class Utils {
                 child: Text(i.tr('Okay')),
                 onPressed: () {
                   Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  static Future<void> showSuccessDialog(
+      BuildContext context, String message) async {
+    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    final i18n i = Provider.of<i18n>(context, listen: false);
+    if (isIOS) {
+      showCupertinoDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (ctx) => Directionality(
+          textDirection: i.isRtl ? TextDirection.rtl : TextDirection.ltr,
+          child: CupertinoAlertDialog(
+            title: Column(
+              children: [
+                const Icon(
+                  CupertinoIcons.check_mark_circled_solid,
+                  color: Colors.green,
+                  size: 50,
+                ),
+                const SizedBox(height: 10),
+                Text(i.tr('Success')),
+              ],
+            ),
+            content: Text(message),
+            actions: <Widget>[
+              TextButton(
+                child: Text(i.tr('Okay')),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                  Navigator.pushReplacementNamed(ctx, LoginScreen.routeName);
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (ctx) => Directionality(
+          textDirection: i.isRtl ? TextDirection.rtl : TextDirection.ltr,
+          child: AlertDialog(
+            title: Column(
+              children: [
+                const Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                  size: 50,
+                ),
+                const SizedBox(height: 10),
+                Text(i.tr('Success')),
+              ],
+            ),
+            content: Text(message),
+            actions: <Widget>[
+              TextButton(
+                child: Text(i.tr('Okay')),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                  Navigator.pushReplacementNamed(ctx, LoginScreen.routeName);
                 },
               )
             ],

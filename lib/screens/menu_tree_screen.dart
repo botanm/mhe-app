@@ -175,8 +175,10 @@ class _MenuTreeScreenState extends State<MenuTreeScreen> {
       });
 
     hisChildren = [
-      ...notSterileElements..sort((a, b) => a['order'].compareTo(b['order'])),
-      ...sterileElements..sort((a, b) => a['order'].compareTo(b['order'])),
+      ...notSterileElements
+        ..sort((a, b) => (a['order'] ?? 0).compareTo(b['order'] ?? 0)),
+      ...sterileElements
+        ..sort((a, b) => (a['order'] ?? 0).compareTo(b['order'] ?? 0)),
       // ...List.of(hisChildren)
       // ..sort((a, b) => a['children'].length.compareTo(b['children'].length)
       //     //& a['order'].compareTo(b['order'])

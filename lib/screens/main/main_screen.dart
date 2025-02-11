@@ -86,13 +86,6 @@ class _MainScreenState extends State<MainScreen> {
     );
     final List<Map<String, dynamic>> screenPair = [
       {
-        "label": i.tr('Home'),
-        "icon": Icons.house_outlined,
-        "selectedIcon": Icons.house,
-        "screen": const LandingScreen(),
-        "search": w < 750 ? const SizedBox.shrink() : mainPageTitle,
-      },
-      {
         "label": 'QRCode',
         "icon": Icons.qr_code_2_outlined,
         "selectedIcon": Icons.qr_code_scanner_outlined,
@@ -100,28 +93,35 @@ class _MainScreenState extends State<MainScreen> {
         "search": w < 750 ? const Text("نوسراو") : const Text("نوسراو"),
       },
       {
-        "label": i.tr('researcher profile'),
-        "icon": Icons.group_outlined,
-        "selectedIcon": Icons.group_rounded,
-        "screen": UsersListScreen(
-            type: 'users',
-            isBottomNavVisible: isBottomNavVisible,
-            onDirectionToggleHandler: (v) {
-              setState(() => isBottomNavVisible = v);
-            }),
-        "search": AdvancedSearchPickerMainAppbar(
-          advancedSearch: const AdvancedSearch(searchForm: UserSearchForm()),
-          searchContainer: cpr.userSearchData,
-        )
+        "label": i.tr('Home'),
+        "icon": Icons.house_outlined,
+        "selectedIcon": Icons.house,
+        "screen": const LandingScreen(),
+        "search": w < 750 ? const SizedBox.shrink() : mainPageTitle,
       },
-      if (apr.isSuperuser)
-        {
-          "label": i.tr('Settings'),
-          "icon": Icons.settings_outlined,
-          "selectedIcon": Icons.settings,
-          "screen": const BasicsDashboardScreen(),
-          "search": const SizedBox.shrink()
-        },
+      // {
+      //   "label": i.tr('researcher profile'),
+      //   "icon": Icons.group_outlined,
+      //   "selectedIcon": Icons.group_rounded,
+      //   "screen": UsersListScreen(
+      //       type: 'users',
+      //       isBottomNavVisible: isBottomNavVisible,
+      //       onDirectionToggleHandler: (v) {
+      //         setState(() => isBottomNavVisible = v);
+      //       }),
+      //   "search": AdvancedSearchPickerMainAppbar(
+      //     advancedSearch: const AdvancedSearch(searchForm: UserSearchForm()),
+      //     searchContainer: cpr.userSearchData,
+      //   )
+      // },
+      // if (apr.isSuperuser)
+      //   {
+      //     "label": i.tr('Settings'),
+      //     "icon": Icons.settings_outlined,
+      //     "selectedIcon": Icons.settings,
+      //     "screen": const BasicsDashboardScreen(),
+      //     "search": const SizedBox.shrink()
+      //   },
     ];
     final List<Widget> searchList = screenPair
         .map((item) => item['search'])
