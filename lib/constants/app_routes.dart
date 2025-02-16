@@ -12,7 +12,6 @@ import '../screens/dashboard/components/new_privilege_screen.dart';
 import '../screens/dashboard/components/new_role_screen.dart';
 import '../screens/dashboard/components/new_subject_screen.dart';
 import '../screens/dashboard/components/new_topic_screen.dart';
-import '../screens/equipment_detail_screen.dart';
 import '../screens/main/main_screen.dart';
 import '../screens/help_login_screen.dart';
 import '../screens/help_screen.dart';
@@ -59,7 +58,6 @@ Map<String, Widget Function(BuildContext)> routes = {
   RewardScreen.routeName: (context) => const RewardScreen(),
   ResearchScreen.routeName: (context) => const ResearchScreen(),
   DocumentTrackingScreen.routeName: (context) => const DocumentTrackingScreen(),
-  EquipmentDetailScreen.routeName: (context) => const EquipmentDetailScreen(),
   HelpScreen.routeName: (context) => const HelpScreen(),
   ContactInformationScreen.routeName: (context) =>
       const ContactInformationScreen(),

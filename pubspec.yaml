@@ -1,7 +1,7 @@
 name: mohe_app_1_x_x
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 4.0.0+30
 
 environment:
   sdk: ^3.5.3
@@ -18,14 +18,14 @@ dependencies:
   image_picker_for_web: ^3.0.5
   path_provider: ^2.1.4
   path: ^1.9.0
-  location: ^7.0.0              # to get the current location LatLng, WHILE "google_maps_flutter" has this ability, BUT I didn't preferred
-  google_maps_flutter: ^2.9.0   # it is google map
+  # location: ^7.0.0              # to get the current location LatLng, WHILE "google_maps_flutter" has this ability, BUT I didn't preferred
+  # google_maps_flutter: ^2.9.0   # it is google map
   cached_network_image: ^3.4.0
   flutter_cache_manager: ^3.4.1 # we use it to customCachManager with "cached_network_image", and cached_network_image is builded base on it: BUT the package originally is used  to download and cache files in the cache directory of the app
   flutter_sound: ^9.6.0
   permission_handler: ^11.3.1
   audioplayers: ^6.1.0
-  fl_chart: ^0.69.0
+  # fl_chart: ^0.69.0
   flutter_svg: ^2.0.10+1
   font_awesome_flutter: ^10.7.0
   google_fonts: ^6.2.1
@@ -33,7 +33,7 @@ dependencies:
   hive_flutter: ^1.1.0          # if you work with hive, you have to install this package also
   http_parser: ^4.0.2
   url_launcher: ^6.3.0
-  carousel_slider: ^5.0.0
+  # carousel_slider: ^5.0.0
   intl: ^0.19.0
   mobile_scanner: ^6.0.0
 
@@ -45,6 +45,13 @@ dev_dependencies:
   # hive database generators
   hive_generator: ^2.0.1        # flutter pub add --dev hive_generator
   build_runner: ^2.4.11         # flutter pub add --dev build_runner
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/app_logo.png"
+  # min_sdk_android: 21 # android min sdk min:16, default 21
 
 flutter:
   uses-material-design: true

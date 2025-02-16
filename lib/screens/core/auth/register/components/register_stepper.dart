@@ -65,19 +65,24 @@ class _RegisterStepperState extends State<RegisterStepper> {
     print(
         '++++++++++++++++++++++++     register_stepper  build     ++++++++++++++++++++++++');
     bool isMobile = Responsive.isMobile(context);
-    return Directionality(
-      textDirection: i.isRtl ? TextDirection.rtl : TextDirection.ltr,
-      child: Form(
-        key: _formKey,
-        child: Theme(
-          data: Theme.of(context).copyWith(
-              colorScheme: const ColorScheme.light(primary: Colors.black)),
-          child: Column(
-            children: [
-              buildStepper,
-              SizedBox(height: isMobile ? 20 : 60),
-              _buildOnStepContinueAndCancelButtons,
-            ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Directionality(
+        textDirection: i.isRtl ? TextDirection.rtl : TextDirection.ltr,
+        child: Form(
+          key: _formKey,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+                colorScheme: const ColorScheme.light(primary: kPrimaryColor)),
+            child: Column(
+              children: [
+                buildStepper,
+                SizedBox(height: isMobile ? 20 : 60),
+                _buildOnStepContinueAndCancelButtons,
+              ],
+            ),
           ),
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 const kPrimaryColor = Colors.blue; //Color(0xFF6F35A5);
@@ -11,7 +10,7 @@ const KScaffoldBackgroundColor = Color(0xffF3F2F8);
 const bool kIsWeb = bool.fromEnvironment('dart.library.js_util');
 
 const double defaultPadding = 16.0;
-const LatLng kErbilLatLng = LatLng(36.19113315078098, 44.00934521108866);
+// const LatLng kErbilLatLng = LatLng(36.19113315078098, 44.00934521108866);
 
 const kCircularProgressIndicator = Center(
     child: CircularProgressIndicator.adaptive(

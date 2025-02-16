@@ -16,7 +16,6 @@ import '../../widgets/menu_picker.dart';
 import '../../widgets/responsive.dart';
 import '../../widgets/user_search_form.dart';
 import '../core/settings/settings_screen.dart';
-import '../dashboard/basics_dashboard_screen.dart';
 import '../mohe-app/document_tracking_screen.dart';
 import '../landing_screen.dart';
 import '../users_list_screen.dart';
