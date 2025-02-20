@@ -14,7 +14,7 @@ String buildApi(String api) {
     return '$serverAddress$api';
   }
 
-  return api;
+  return '$serverAddress$api';
 }
 
 String login = buildApi(

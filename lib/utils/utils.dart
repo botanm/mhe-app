@@ -5,8 +5,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../constants/app_constants.dart';
 import '../providers/i18n.dart';
 import '../screens/core/auth/login/login_screen.dart';
-import '../screens/dashboard/components/delete_widget.dart';
-import '../screens/new_answer_screen.dart';
+
 import '../widgets/responsive.dart';
 
 class Utils {
@@ -77,45 +76,45 @@ class Utils {
     );
   }
 
-  static Future<void> onAnswerTap(
-      {required BuildContext context,
-      required int id,
-      required bool isReAnswer}) async {
-    if (Responsive.isMobile(context) || Responsive.isLargeMobile(context)) {
-      await showModalBottomSheet(
-        isDismissible: false,
-        isScrollControlled: true, //to Maximize BottomSheet
-        backgroundColor: Colors.white,
-        shape: kBuildTopRoundedRectangleBorder,
-        context: context,
-        builder: (context) => FractionallySizedBox(
-          heightFactor: 0.8,
-          child: NewAnswerScreen(
-            qID: id,
-            args: isReAnswer ? {'answeredQuestionID': id} : null,
-          ),
-        ),
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            elevation: 1,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: SizedBox(
-              width: 600,
-              child: NewAnswerScreen(
-                qID: id,
-                args: isReAnswer ? {'answeredQuestionID': id} : null,
-              ),
-            ),
-          );
-        },
-      );
-    }
-  }
+  // static Future<void> onAnswerTap(
+  //     {required BuildContext context,
+  //     required int id,
+  //     required bool isReAnswer}) async {
+  //   if (Responsive.isMobile(context) || Responsive.isLargeMobile(context)) {
+  //     await showModalBottomSheet(
+  //       isDismissible: false,
+  //       isScrollControlled: true, //to Maximize BottomSheet
+  //       backgroundColor: Colors.white,
+  //       shape: kBuildTopRoundedRectangleBorder,
+  //       context: context,
+  //       builder: (context) => FractionallySizedBox(
+  //         heightFactor: 0.8,
+  //         child: NewAnswerScreen(
+  //           qID: id,
+  //           args: isReAnswer ? {'answeredQuestionID': id} : null,
+  //         ),
+  //       ),
+  //     );
+  //   } else {
+  //     showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return Dialog(
+  //           elevation: 1,
+  //           shape: const RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.all(Radius.circular(10))),
+  //           child: SizedBox(
+  //             width: 600,
+  //             child: NewAnswerScreen(
+  //               qID: id,
+  //               args: isReAnswer ? {'answeredQuestionID': id} : null,
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
 
   static Future<void> showErrorDialog(
       BuildContext context, String message) async {
@@ -273,36 +272,36 @@ class Utils {
     }
   }
 
-  static Future<void> handleDeleteTap({
-    required BuildContext context,
-    required i18n i,
-    required Map<String, String> deletePayload,
-  }) async {
-    Navigator.of(context).pop(); // to pop off the SMBS in the navigator.
+  // static Future<void> handleDeleteTap({
+  //   required BuildContext context,
+  //   required i18n i,
+  //   required Map<String, String> deletePayload,
+  // }) async {
+  //   Navigator.of(context).pop(); // to pop off the SMBS in the navigator.
 
-    if (Responsive.isMobile(context) || Responsive.isLargeMobile(context)) {
-      await showModalBottomSheet(
-        shape: kBuildTopRoundedRectangleBorder,
-        context: context,
-        builder: (ctx) => DeleteWidget(deletePayload: deletePayload),
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            elevation: 1,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: SizedBox(
-              width: 600,
-              child: DeleteWidget(deletePayload: deletePayload),
-            ),
-          );
-        },
-      );
-    }
-  }
+  //   if (Responsive.isMobile(context) || Responsive.isLargeMobile(context)) {
+  //     await showModalBottomSheet(
+  //       shape: kBuildTopRoundedRectangleBorder,
+  //       context: context,
+  //       builder: (ctx) => DeleteWidget(deletePayload: deletePayload),
+  //     );
+  //   } else {
+  //     showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return Dialog(
+  //           elevation: 1,
+  //           shape: const RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.all(Radius.circular(10))),
+  //           child: SizedBox(
+  //             width: 600,
+  //             child: DeleteWidget(deletePayload: deletePayload),
+  //           ),
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
 
   static String formatTime(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');

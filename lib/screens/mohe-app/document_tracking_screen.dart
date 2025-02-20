@@ -10,7 +10,6 @@ import '../../utils/utils.dart';
 import '../../widgets/advanced_search.dart';
 import '../../widgets/menu_picker.dart';
 import '../../widgets/responsive.dart';
-import '../../widgets/user_search_form.dart';
 import 'colorful_line_widget.dart';
 import 'doc_search_form.dart';
 import 'document_tracking_stepper.dart';
@@ -172,7 +171,10 @@ class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
       onPressed: toggleDocHistoryStatus,
       label: Text(
         fabText,
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(
+          color: Colors.white,
+          fontFamily: 'Plex Sans Regular',
+        ),
       ),
       icon: Icon(fabIcon, color: Colors.white),
       backgroundColor: kPrimaryColor,
@@ -227,7 +229,7 @@ class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
   MenuPicker get _buildHistoryMenuPicker {
     return MenuPicker(
       allElements: bpr.docHistoryMaps,
-      maSecName: ['refNo', 'refDate'],
+      maSecName: const ['refNo', 'refDate'],
       initialSelected: bpr.docSearchData['id'] == ''
           ? []
           : [
@@ -271,8 +273,18 @@ class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
       child: ListTile(
         iconColor: kPrimaryColor,
         leading: Icon(icon),
-        title: Text(title),
-        subtitle: Text(subtitle),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontFamily: 'Plex Sans Medium',
+          ),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: const TextStyle(
+            fontFamily: 'Plex Sans Regular',
+          ),
+        ),
         trailing: const Icon(Icons.arrow_forward_ios),
         dense: true,
         onTap: onTap,

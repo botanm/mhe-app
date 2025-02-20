@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../constants/app_constants.dart';
 import '../../providers/basics.dart';
-import '../../providers/core.dart';
 import '../../providers/i18n.dart';
 import '../../widgets/textformfield_widget.dart';
 
@@ -19,7 +18,6 @@ class _ScientificTitleScreenState extends State<ScientificTitleScreen> {
   bool _isInit = true;
   late final i18n i;
   late final Basics bpr;
-  late final Core cpr;
   late final Map<String, dynamic> info;
 
   late Future<void> _futureInstance;
@@ -36,7 +34,6 @@ class _ScientificTitleScreenState extends State<ScientificTitleScreen> {
     if (_isInit) {
       i = Provider.of<i18n>(context, listen: false);
       bpr = Provider.of<Basics>(context, listen: false);
-      cpr = Provider.of<Core>(context);
 
       _futureInstance = _getData();
     }

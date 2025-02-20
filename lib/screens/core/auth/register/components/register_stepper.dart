@@ -162,13 +162,23 @@ class _RegisterStepperState extends State<RegisterStepper> {
   Step get _1stStep => Step(
         state: _stepState(0, _1stStepVal),
         isActive: _currentStep >= 0,
-        title: Text(i.tr("Verify")),
+        title: Text(
+          i.tr("Verify"),
+          style: const TextStyle(
+            fontFamily: 'Plex Sans Regular',
+          ),
+        ),
         content: _1stStepContent,
       );
   Step get _2ndStep => Step(
         state: _stepState(1, _2ndStepVal),
         isActive: _currentStep >= 1,
-        title: Text(i.tr("Password")),
+        title: Text(
+          i.tr("Password"),
+          style: const TextStyle(
+            fontFamily: 'Plex Sans Regular',
+          ),
+        ),
         content: _2ndStepContent,
       );
 
@@ -189,7 +199,11 @@ class _RegisterStepperState extends State<RegisterStepper> {
           children: [
             Text(
               i.tr("m97"),
-              style: const TextStyle(fontSize: 14),
+              textAlign: TextAlign.justify,
+              style: const TextStyle(
+                fontSize: 14,
+                fontFamily: 'Plex Sans Regular',
+              ),
             ),
             _buildBiometric,
             _buildEmail,

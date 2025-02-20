@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../constants/app_constants.dart';
 import '../../providers/basics.dart';
-import '../../providers/core.dart';
 import '../../providers/i18n.dart';
 import '../../widgets/gradient_button.dart';
 import '../../widgets/textformfield_widget.dart';
@@ -19,7 +18,6 @@ class ThanksLetterScreen extends StatefulWidget {
 class _ThanksLetterScreenState extends State<ThanksLetterScreen> {
   late final i18n i;
   late final Basics bpr;
-  late final Core cpr;
   late Future<void> _futureInstance;
   late List<dynamic> info;
 
@@ -38,7 +36,6 @@ class _ThanksLetterScreenState extends State<ThanksLetterScreen> {
   @override
   Widget build(BuildContext context) {
     i = Provider.of<i18n>(context, listen: false);
-    cpr = Provider.of<Core>(context);
 
     return Directionality(
       textDirection: i.isRtl ? TextDirection.rtl : TextDirection.ltr,

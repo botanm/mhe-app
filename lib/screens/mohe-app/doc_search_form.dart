@@ -192,7 +192,11 @@ class _DocSearchFormState extends State<DocSearchForm> {
           },
           child: Text(
             i.tr("Reset Filter"),
-            style: const TextStyle(color: kPrimaryColor, fontSize: 16),
+            style: const TextStyle(
+              color: kPrimaryColor,
+              fontSize: 16,
+              fontFamily: 'Plex Sans Regular',
+            ),
           ),
         ),
       ],

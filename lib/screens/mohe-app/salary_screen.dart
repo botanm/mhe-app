@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../constants/app_constants.dart';
 import '../../providers/auth.dart';
 import '../../providers/basics.dart';
-import '../../providers/core.dart';
 import '../../providers/i18n.dart';
 import '../../widgets/advanced_search.dart';
 import '../../widgets/gradient_button.dart';
@@ -25,7 +24,6 @@ class _SalaryScreenState extends State<SalaryScreen> {
   late final i18n i;
   late final Basics bpr;
   late final Auth apr;
-  late final Core cpr;
   late final Map<String, dynamic> info;
   late final Map<String, dynamic> personalInfo;
 
@@ -45,7 +43,6 @@ class _SalaryScreenState extends State<SalaryScreen> {
       i = Provider.of<i18n>(context, listen: false);
       bpr = Provider.of<Basics>(context);
       apr = Provider.of<Auth>(context);
-      cpr = Provider.of<Core>(context);
 
       _futureInstance = _getData();
     }

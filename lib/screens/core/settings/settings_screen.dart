@@ -10,7 +10,6 @@ import '../../../widgets/responsive.dart';
 import '../../../widgets/setting_group.dart';
 import '../../../widgets/settings_tile.dart';
 import '../../contact_information_screen.dart';
-import '../../myquestions_screen.dart';
 import '../auth/register/register_screen.dart';
 import 'account_preferences_screen.dart';
 
@@ -141,16 +140,16 @@ class SettingsScreen extends StatelessWidget {
             // Navigator.pushNamed(context, BookmarksScreen.routeName),
             ),
         SettingsTile(
-          leading: const IconWidget(
-            icon: Icons.question_mark,
-            color: Colors.green,
-          ),
-          title: i.tr('My Questions'),
-          subtitle: i.tr('The questions I sent'),
-          isTrailing: false,
-          onTapHandler: () =>
-              Navigator.pushNamed(context, MyQuestionsScreen.routeName),
-        ),
+            leading: const IconWidget(
+              icon: Icons.question_mark,
+              color: Colors.green,
+            ),
+            title: i.tr('My Questions'),
+            subtitle: i.tr('The questions I sent'),
+            isTrailing: false,
+            onTapHandler: () => ()
+            // Navigator.pushNamed(context, MyQuestionsScreen.routeName),
+            ),
         SettingsTile(
             leading: const IconWidget(
               icon: Icons.bookmarks_outlined,
@@ -196,35 +195,35 @@ class SettingsScreen extends StatelessWidget {
         //       onTapHandler: () => null
         //       // Navigator.pushNamed(context, BasicsScreen.routeName),
         //       ),
-        SettingsTile(
-            leading: const IconWidget(
-              icon: Icons.settings,
-              color: Colors.orange,
-            ),
-            title: i.tr('Account preferences'),
-            subtitle: i.tr('Privacy, Security, Language'),
-            isTrailing: true,
-            onTapHandler: () {
-              if (w < 1024) {
-                Navigator.pushReplacementNamed(
-                    context, AccountPreferencesScreen.routeName);
-              } else {
-                Navigator.pop(context);
-                showDialog(
-                    // barrierColor: kPrimaryLightColor.withOpacity(0.2),
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const Dialog(
-                        elevation: 1,
-                        shape: kBuildTopRoundedRectangleBorder,
-                        child: FractionallySizedBox(
-                            heightFactor: 0.5,
-                            widthFactor: 0.5,
-                            child: AccountPreferencesScreen()),
-                      );
-                    });
-              }
-            }),
+        // SettingsTile(
+        //     leading: const IconWidget(
+        //       icon: Icons.settings,
+        //       color: Colors.orange,
+        //     ),
+        //     title: i.tr('Account preferences'),
+        //     subtitle: i.tr('Privacy, Security, Language'),
+        //     isTrailing: true,
+        //     onTapHandler: () {
+        //       if (w < 1024) {
+        //         Navigator.pushReplacementNamed(
+        //             context, AccountPreferencesScreen.routeName);
+        //       } else {
+        //         Navigator.pop(context);
+        //         showDialog(
+        //             // barrierColor: kPrimaryLightColor.withOpacity(0.2),
+        //             context: context,
+        //             builder: (BuildContext context) {
+        //               return const Dialog(
+        //                 elevation: 1,
+        //                 shape: kBuildTopRoundedRectangleBorder,
+        //                 child: FractionallySizedBox(
+        //                     heightFactor: 0.5,
+        //                     widthFactor: 0.5,
+        //                     child: AccountPreferencesScreen()),
+        //               );
+        //             });
+        //       }
+        //     }),
         SettingsTile(
           leading: const IconWidget(
             icon: Icons.key,

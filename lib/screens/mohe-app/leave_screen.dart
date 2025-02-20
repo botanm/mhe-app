@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../constants/app_constants.dart';
 import '../../providers/basics.dart';
-import '../../providers/core.dart';
 import '../../providers/i18n.dart';
 import '../../widgets/gradient_button.dart';
 import '../../widgets/textformfield_widget.dart';
@@ -20,7 +19,6 @@ class _LeaveScreenState extends State<LeaveScreen> {
   bool _isInit = true;
   late final i18n i;
   late final Basics bpr;
-  late final Core cpr;
   late final List<dynamic> leaves;
   late final Map<String, dynamic> leaveStatistic;
 
@@ -46,7 +44,6 @@ class _LeaveScreenState extends State<LeaveScreen> {
     if (_isInit) {
       i = Provider.of<i18n>(context, listen: false);
       bpr = Provider.of<Basics>(context, listen: false);
-      cpr = Provider.of<Core>(context);
 
       _futureInstance = _getData();
     }

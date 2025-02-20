@@ -151,7 +151,12 @@ class _MenuTreeScreenState extends State<MenuTreeScreen> {
           collapsedIconColor: kPrimaryColor,
           collapsedTextColor: kPrimaryColor,
           textColor: kPrimaryColor,
-          title: Text(name),
+          title: Text(
+            name,
+            style: const TextStyle(
+              fontFamily: 'Plex Sans Regular',
+            ),
+          ),
           children: hisChildren
               .map((c) => buildTile(c, leftPadding: 16 + leftPadding))
               .toList(),

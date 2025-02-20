@@ -23,7 +23,10 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
         children: <Widget>[
           Text(
             login ? i.tr('m77') : i.tr('m78'),
-            style: const TextStyle(color: kPrimaryColor),
+            style: const TextStyle(
+              color: kPrimaryColor,
+              fontFamily: 'Plex Sans Regular',
+            ),
           ),
           GestureDetector(
             onTap: press as void Function()?,
@@ -31,7 +34,8 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
               login ? i.tr('Register') : i.tr('m64'),
               style: const TextStyle(
                 color: kPrimaryColor,
-                fontWeight: FontWeight.bold,
+                // fontWeight: FontWeight.bold,
+                fontFamily: 'Plex Sans Bold',
               ),
             ),
           )

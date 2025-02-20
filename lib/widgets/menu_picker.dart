@@ -148,7 +148,10 @@ class _MenuPickerState extends State<MenuPicker> {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-            color: textIconColor, fontSize: 16, fontWeight: FontWeight.bold),
+          color: textIconColor,
+          fontSize: 16,
+          fontFamily: 'Plex Sans Medium',
+        ),
       ),
       trailing: Icon(Icons.arrow_drop_down, color: textIconColor),
       shape: RoundedRectangleBorder(

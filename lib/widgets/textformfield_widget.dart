@@ -66,7 +66,12 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
             ? Icon(widget.icon)
             : const SizedBox(
                 height: 24.0, width: 24.0), // default flutter icon size is 24.0
-        label: Text(widget.label),
+        label: Text(
+          widget.label,
+          style: const TextStyle(
+            fontFamily: 'Plex Sans Regular',
+          ),
+        ),
         suffixIcon: _suffixIcon,
         border: widget.maxLines != null && widget.maxLines! > 2
             ? const OutlineInputBorder()

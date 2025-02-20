@@ -5,20 +5,16 @@ import '../../constants/app_constants.dart';
 import '../../providers/MenuAppController.dart';
 import '../../providers/auth.dart';
 import '../../providers/basics.dart';
-import '../../providers/core.dart';
 import '../../providers/i18n.dart';
 import '../../utils/utils.dart';
-import '../../widgets/advanced_search.dart';
-import '../../widgets/advancedsearch_picker_mainappbar.dart';
+
 import '../../widgets/avatar_widget.dart';
 import '../../widgets/bottom_navigation_bar_widget.dart';
 import '../../widgets/menu_picker.dart';
 import '../../widgets/responsive.dart';
-import '../../widgets/user_search_form.dart';
 import '../core/settings/settings_screen.dart';
 import '../mohe-app/document_tracking_screen.dart';
 import '../landing_screen.dart';
-import '../users_list_screen.dart';
 import 'components/side_menu.dart';
 
 class MainScreen extends StatefulWidget {
@@ -37,7 +33,6 @@ class _MainScreenState extends State<MainScreen> {
   bool isBottomNavVisible = true;
   late final i18n i;
   late final Basics bpr;
-  late final Core cpr;
   late final Auth apr;
 
   void _initializeProviders() {
@@ -50,7 +45,6 @@ class _MainScreenState extends State<MainScreen> {
     menuAppController = context.read<MenuAppController>();
     i = context.read<i18n>();
     bpr = context.read<Basics>();
-    cpr = context.watch<Core>();
     apr = context.read<Auth>();
   }
 
@@ -142,7 +136,7 @@ class _MainScreenState extends State<MainScreen> {
         // cpr.onRefreshQuestions();
         // break;
         case 2:
-          cpr.onRefreshUsers();
+          // cpr.onRefreshUsers();
           break;
         default:
           setState(() {});
@@ -302,7 +296,12 @@ class MainScreenAppBar extends StatelessWidget {
             extendedTextStyle: const TextStyle(fontWeight: FontWeight.bold),
             extendedPadding:
                 const EdgeInsets.symmetric(horizontal: 24, vertical: 1),
-            label: Text(s1),
+            label: Text(
+              s1,
+              style: const TextStyle(
+                fontFamily: 'Plex Sans Regular',
+              ),
+            ),
             backgroundColor: KScaffoldBackgroundColor,
             foregroundColor: Colors.black,
             elevation: 0,
@@ -312,11 +311,11 @@ class MainScreenAppBar extends StatelessWidget {
         ),
       ),
       SizedBox(width: w * 0.007),
-      SizedBox(
-        height: 35,
-        width: 135,
-        child: _buildSelectAppLanguage(ctx, i),
-      ),
+      // SizedBox(
+      //   height: 35,
+      //   width: 135,
+      //   child: _buildSelectAppLanguage(ctx, i),
+      // ),
       // FractionallySizedBox(
       //   heightFactor: 0.6,
       //   child: Theme(

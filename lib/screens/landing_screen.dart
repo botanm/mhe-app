@@ -131,7 +131,12 @@ class LandingScreen extends StatelessWidget {
     return Scaffold(
       // backgroundColor: Colors.grey[200], // Background color to match Facebook app
       appBar: AppBar(
-        title: const Text('زانیاری کەسی'),
+        title: const Text(
+          'زانیاری کەسی',
+          style: TextStyle(
+            fontFamily: 'Plex Sans Medium',
+          ),
+        ),
         backgroundColor: Colors.white,
         iconTheme:
             const IconThemeData(color: Colors.black), // Black icons in AppBar
@@ -259,8 +264,9 @@ class _MenuItemState extends State<MenuItem>
                   widget.label,
                   style: const TextStyle(
                     fontSize: 15, // Font size
-                    fontWeight: FontWeight.w500, // Font weight
+                    // fontWeight: FontWeight.w500, // Font weight
                     color: Colors.black, // Text color
+                    fontFamily: 'Plex Sans Regular',
                   ),
                 ),
               ],

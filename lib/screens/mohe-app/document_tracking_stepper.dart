@@ -44,7 +44,12 @@ class _DocumentTrackingStepperState extends State<DocumentTrackingStepper> {
     if (_trackingData.isEmpty) {
       return const Column(
         children: [
-          Text("تکایە زانیاری داخل بکە بۆ بەدواداچوون"),
+          Text(
+            "تکایە زانیاری داخل بکە بۆ بەدواداچوون",
+            style: TextStyle(
+              fontFamily: 'Plex Sans Regular',
+            ),
+          ),
           SizedBox(height: 10),
         ],
       );
@@ -81,7 +86,7 @@ class _DocumentTrackingStepperState extends State<DocumentTrackingStepper> {
                 return const SizedBox.shrink();
               },
             ),
-            _buildHeader(_trackingData.first),
+            _buildFooter(_trackingData.first),
           ],
         ),
       ),
@@ -99,12 +104,17 @@ class _DocumentTrackingStepperState extends State<DocumentTrackingStepper> {
     return Step(
       title: Text(
         item['fromOrganization'],
-        style:
-            const TextStyle(fontWeight: FontWeight.bold, color: Colors.black54),
+        style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.black54,
+            fontFamily: 'Plex Sans Regular'),
       ),
       subtitle: Text(
         periodText,
-        style: const TextStyle(color: Colors.black54),
+        style: const TextStyle(
+          color: Colors.black54,
+          fontFamily: 'Plex Sans Regular',
+        ),
         textDirection: TextDirection.rtl,
       ),
       content: Column(
@@ -115,12 +125,18 @@ class _DocumentTrackingStepperState extends State<DocumentTrackingStepper> {
           ),
           Text(
             "لە: ${item['fromDate'].substring(0, 16)} ",
-            style: const TextStyle(color: Colors.black54),
+            style: const TextStyle(
+              color: Colors.black54,
+              fontFamily: 'Plex Sans Regular',
+            ),
             textDirection: TextDirection.rtl,
           ),
           Text(
             "نێردرا بۆ: ${item['toOrganization']}",
-            style: const TextStyle(color: Colors.black54),
+            style: const TextStyle(
+              color: Colors.black54,
+              fontFamily: 'Plex Sans Regular',
+            ),
           ),
         ],
       ),
@@ -148,7 +164,7 @@ class _DocumentTrackingStepperState extends State<DocumentTrackingStepper> {
     return periodText;
   }
 
-  Card _buildHeader(Map<String, dynamic> item) {
+  Card _buildFooter(Map<String, dynamic> item) {
     return Card(
       // elevation: 4, // Gives a shadow effect
       shape: RoundedRectangleBorder(
@@ -172,7 +188,7 @@ class _DocumentTrackingStepperState extends State<DocumentTrackingStepper> {
                 style: TextStyle(
                   color: kPrimaryColor,
                   fontSize: 18,
-                  fontWeight: FontWeight.bold, // Bold title
+                  fontFamily: 'Plex Sans Bold',
                 ),
               ),
               const SizedBox(height: 12),
@@ -199,7 +215,7 @@ class _DocumentTrackingStepperState extends State<DocumentTrackingStepper> {
           label,
           style: const TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.w600, // Semi-bold for the labels
+            fontFamily: 'Plex Sans Bold',
           ),
         ),
         const SizedBox(width: 12),
@@ -208,7 +224,8 @@ class _DocumentTrackingStepperState extends State<DocumentTrackingStepper> {
             value,
             style: const TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.w400, // Normal weight for the values
+              // fontWeight: FontWeight.w400, // Normal weight for the values
+              fontFamily: 'Plex Sans Regular',
               color: Colors.blueAccent, // Color to distinguish the value
             ),
           ),

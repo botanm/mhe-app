@@ -80,11 +80,7 @@ class _BasicsRUDListTileState extends State<BasicsRUDListTile> {
         icon: Icons.delete_outline,
         title: i.tr('Delete'),
         subtitle: i.tr('m49'),
-        onTap: () => Utils.handleDeleteTap(
-          context: context,
-          i: i,
-          deletePayload: widget.deletePayload,
-        ),
+        onTap: () => (),
       ),
     ];
 

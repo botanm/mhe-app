@@ -143,9 +143,10 @@ class _MenuNormalScreenState extends State<MenuNormalScreen> {
                 child: Text(
                   widget.title,
                   style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontFamily: 'Plex Sans Medium',
+                  ),
                 ),
               ),
             ),

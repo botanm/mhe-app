@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../constants/app_constants.dart';
 import '../../providers/basics.dart';
-import '../../providers/core.dart';
 import '../../providers/i18n.dart';
 import '../../widgets/gradient_button.dart';
 import '../../widgets/textformfield_widget.dart';
@@ -20,7 +19,6 @@ class _OperateScreenState extends State<OperateScreen> {
   bool _isInit = true;
   late final i18n i;
   late final Basics bpr;
-  late final Core cpr;
   late final List<dynamic> operates;
 
   late Future<void> _futureInstance;
@@ -36,7 +34,6 @@ class _OperateScreenState extends State<OperateScreen> {
     if (_isInit) {
       i = Provider.of<i18n>(context, listen: false);
       bpr = Provider.of<Basics>(context, listen: false);
-      cpr = Provider.of<Core>(context);
 
       _futureInstance = _getData();
     }

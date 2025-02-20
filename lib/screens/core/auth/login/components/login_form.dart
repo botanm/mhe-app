@@ -73,7 +73,7 @@ class _LoginFormState extends State<LoginForm> {
       children: [
         _buildUsername(),
         _buildPassword(),
-        _buildForgotPassword(),
+        _buildForgotPasswordLink(),
         const SizedBox(height: defaultPadding * 2),
         _buildSubmitButton(),
         const SizedBox(height: defaultPadding),
@@ -93,6 +93,7 @@ class _LoginFormState extends State<LoginForm> {
         initialValue: _authData['username'],
         decoration: InputDecoration(
           hintText: i.tr('Username'),
+          hintStyle: const TextStyle(fontFamily: 'Plex Sans Medium'),
           prefixIcon: const Icon(Icons.person),
           // label: Text(i.tr('Username')),
           // suffixIcon: Icon(Icons.person),
@@ -126,6 +127,7 @@ class _LoginFormState extends State<LoginForm> {
         initialValue: _authData['password'],
         decoration: InputDecoration(
           hintText: i.tr('Password'),
+          hintStyle: const TextStyle(fontFamily: 'Plex Sans Medium'),
           prefixIcon: const Icon(Icons.lock),
           // label: Text(i.tr('Username')),
           suffixIcon: IconButton(
@@ -154,7 +156,7 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  TextButton _buildForgotPassword() {
+  TextButton _buildForgotPasswordLink() {
     return TextButton(
       onPressed: () {
         Navigator.pushNamed(context, '/forgotPassword');
@@ -163,7 +165,8 @@ class _LoginFormState extends State<LoginForm> {
         i.tr('Forgot password?'),
         style: const TextStyle(
           color: Colors.blue,
-          fontWeight: FontWeight.bold,
+          // fontWeight: FontWeight.bold,
+          fontFamily: 'Plex Sans Bold',
         ),
       ),
     );
@@ -265,7 +268,12 @@ class _LoginFormState extends State<LoginForm> {
               .map(
                 (e) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(e),
+                  child: Text(
+                    e,
+                    style: const TextStyle(
+                      fontFamily: 'Plex Sans Regular',
+                    ),
+                  ),
                 ),
               )
               .toList(),

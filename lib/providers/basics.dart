@@ -7,8 +7,6 @@ import 'package:uuid/uuid.dart';
 import '/constants/api_path.dart' as endpoints;
 import 'package:http/http.dart' as http;
 
-import '../utils/services/http_exception.dart';
-
 class Basics with ChangeNotifier {
   static String authToken = '';
   String _userId = '';
@@ -48,107 +46,6 @@ class Basics with ChangeNotifier {
   List<dynamic> get searchedDocTrackingData =>
       [..._searchedDocTrackingData.reversed];
 
-  static List<dynamic> _roles = [];
-  static List<dynamic> _privileges = [];
-  static List<dynamic> _dialects = [];
-  static List<dynamic> _cityTypes = [];
-  static List<dynamic> _cities = [];
-  static List<dynamic> _categories = [];
-  static List<dynamic> _topics = [];
-  static List<dynamic> _subjects = [];
-
-  Map<String, dynamic> getTypeInfo(String type) {
-    Map<String, dynamic> info = {};
-    switch (type) {
-      case "role":
-        {
-          info = {
-            "name": "role",
-            "endpoint": endpoints.role,
-            "container": _roles
-          };
-        }
-        break;
-
-      case "privilege":
-        {
-          info = {
-            "name": "privilege",
-            "endpoint": endpoints.privilege,
-            "container": _privileges
-          };
-        }
-        break;
-
-      case "dialect":
-        {
-          info = {
-            "name": "dialect",
-            "endpoint": endpoints.dialect,
-            "container": _dialects
-          };
-        }
-        break;
-
-      case "cityType":
-        {
-          info = {
-            "name": "cityType",
-            "endpoint": endpoints.cityType,
-            "container": _cityTypes
-          };
-        }
-        break;
-
-      case "city":
-        {
-          info = {
-            "name": "city",
-            "endpoint": endpoints.city,
-            "container": _cities
-          };
-        }
-        break;
-
-      case "category":
-        {
-          info = {
-            "name": "category",
-            "endpoint": endpoints.category,
-            "container": _categories
-          };
-        }
-        break;
-
-      case "topic":
-        {
-          info = {
-            "name": "topic",
-            "endpoint": endpoints.topic,
-            "container": _topics
-          };
-        }
-        break;
-
-      case "subject":
-        {
-          info = {
-            "name": "subject",
-            "endpoint": endpoints.subject,
-            "container": _subjects
-          };
-        }
-        break;
-
-      default:
-        {
-          print("Invalid choice");
-        }
-        break;
-    }
-    return info;
-  }
-
   void update(String t, String u) async {
     authToken = t;
     if (_userId != u) {
@@ -165,9 +62,9 @@ class Basics with ChangeNotifier {
     return null;
   }
 
-  Map<String, String>? get _headers {
-    return authToken.isNotEmpty ? {'Authorization': 'Bearer $authToken'} : null;
-  }
+  // Map<String, String>? get _headers {
+  //   return authToken.isNotEmpty ? {'Authorization': 'Bearer $authToken'} : null;
+  // }
 
   Future<void> fetchAndSetCertifications() async {
     try {
@@ -486,7 +383,7 @@ class Basics with ChangeNotifier {
       final String utf8DecodedData = utf8.decode(res.bodyBytes);
       // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
       operates = jsonDecode(utf8DecodedData);
-      // print(attendance[5]);
+      // print("HHH: $operates");
 
       // thanksLetters.removeWhere((element) => element['docDate'] == null);
 
@@ -787,44 +684,6 @@ class Basics with ChangeNotifier {
     }
   }
 
-  List<dynamic> get roles => [..._roles];
-  List<dynamic> get privileges => [..._privileges];
-  List<dynamic> get dialects => [..._dialects];
-  List<dynamic> get cityTypes => [..._cityTypes];
-  List<dynamic> get cities => [..._cities];
-  List<dynamic> get categories => [..._categories];
-  List<dynamic> get topics => [..._topics];
-  List<dynamic> get subjects => [..._subjects];
-
-  Map<String, dynamic> findBasicById(String bn, int id) {
-    final Map<String, dynamic> epi = getTypeInfo(bn);
-    List<dynamic> container = epi['container'];
-    return container.firstWhere((e) => e['id'] == id, orElse: () => null) ?? {};
-  }
-
-  void _addNewElement(
-      List<dynamic> listPointer, Map<String, dynamic> newElement) {
-    listPointer.add(newElement);
-    // _listPointer.insert(0, _newElement); // at the start of the list, BUT IF apply " getPrioritizedElements(_provider.users);" on the showing screen, it would be reordered there not in provider class
-    notifyListeners();
-  }
-
-  void _swapEditedElement(
-      List<dynamic> listPointer, Map<String, dynamic> newElement) {
-    final eIndex = listPointer.indexWhere((e) => e['id'] == newElement['id']);
-    if (eIndex >= 0) {
-      listPointer[eIndex] = newElement;
-      notifyListeners();
-    }
-  }
-
-  void _removeElement(List<dynamic> listPointer, String id) {
-    final eIndex = listPointer.indexWhere((e) => e['id'] == int.parse(id));
-    listPointer.removeAt(eIndex);
-
-    notifyListeners();
-  }
-
   Future<bool> isAnyAnswererAvailable(List<int> dialects) async {
     String endpoint = '${endpoints.isAnyAnswererAvailable}?dialects=$dialects';
     try {
@@ -848,111 +707,6 @@ class Basics with ChangeNotifier {
     }
   }
 
-  Future<void> fetchAndSetRoles() async {
-    try {
-      final http.Response res =
-          await http.get(Uri.parse(endpoints.role), headers: _headers);
-      final String utf8DecodedData = utf8.decode(res.bodyBytes);
-      // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
-      _roles = jsonDecode(utf8DecodedData);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> fetchAndSetPrivileges() async {
-    try {
-      final http.Response res =
-          await http.get(Uri.parse(endpoints.privilege), headers: _headers);
-      final String utf8DecodedData = utf8.decode(res.bodyBytes);
-      // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
-      _privileges = jsonDecode(utf8DecodedData);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> fetchAndSetDialects() async {
-    try {
-      final http.Response res =
-          await http.get(Uri.parse(endpoints.dialect), headers: _headers);
-      final String utf8DecodedData = utf8.decode(res.bodyBytes);
-      // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
-      _dialects = jsonDecode(utf8DecodedData);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> fetchAndSetCityTypes() async {
-    try {
-      final http.Response res =
-          await http.get(Uri.parse(endpoints.cityType), headers: _headers);
-      final String utf8DecodedData = utf8.decode(res.bodyBytes);
-      // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
-      _cityTypes = jsonDecode(utf8DecodedData);
-      notifyListeners();
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> fetchAndSetCities() async {
-    try {
-      final http.Response res =
-          await http.get(Uri.parse(endpoints.city), headers: _headers);
-      final String utf8DecodedData = utf8.decode(res.bodyBytes);
-      // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
-      _cities = jsonDecode(utf8DecodedData);
-      notifyListeners();
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> fetchAndSetCategories() async {
-    try {
-      final http.Response res =
-          await http.get(Uri.parse(endpoints.category), headers: _headers);
-      final String utf8DecodedData = utf8.decode(res.bodyBytes);
-      // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
-      _categories = jsonDecode(utf8DecodedData);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> fetchAndSetTopics() async {
-    try {
-      final http.Response res =
-          await http.get(Uri.parse(endpoints.topic), headers: _headers);
-      final String utf8DecodedData = utf8.decode(res.bodyBytes);
-      // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
-      _topics = jsonDecode(utf8DecodedData);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> fetchAndSetSubjects() async {
-    try {
-      final http.Response res =
-          await http.get(Uri.parse(endpoints.subject), headers: _headers);
-      final String utf8DecodedData = utf8.decode(res.bodyBytes);
-      // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
-      _subjects = jsonDecode(utf8DecodedData);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  // void removeTrashedUserInOrganizations(int id) {
-  //   for (Map<String, dynamic> org in _cities) {
-  //     org["reps"].remove(id);
-  //   }
-  //   notifyListeners();
-  // }
-
   Future<void> initialBasicsFetchAndSet() async {
     /// Multiple concurrent http Requests
     // https://medium.com/app-dev-community/how-to-use-await-with-multiple-requests-concurrency-in-flutter-and-dart-part-1-50dbde503f6b
@@ -970,92 +724,6 @@ class Basics with ChangeNotifier {
       // fetchAndSetTopics(),
       // fetchAndSetSubjects()
     ]);
-  }
-
-  Future<void> newBasic(String bn, Map<String, dynamic> formData) async {
-    String body = jsonEncode(formData);
-    final Map<String, dynamic> epi = getTypeInfo(bn);
-    String endpoint = epi['endpoint'];
-    List<dynamic> container = epi['container'];
-
-    final Map<String, String> headers = {
-      "Authorization": "Bearer $authToken",
-      "content-type": "application/json",
-      "accept": "application/json",
-    };
-
-    late final http.Response res;
-
-    try {
-      if (formData['id'] != null) {
-        endpoint += '${formData['id']}/';
-        res = await http.patch(
-          Uri.parse(endpoint),
-          headers: headers,
-          body: body,
-        );
-      } else {
-        res = await http.post(
-          Uri.parse(endpoint),
-          headers: headers,
-          body: body,
-        );
-      }
-
-      final String utf8DecodedData = utf8.decode(res.bodyBytes);
-      // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
-      final decodedData = jsonDecode(utf8DecodedData);
-
-      // print('decodedData$decodedData');
-      if (res.statusCode == 201) {
-        _addNewElement(container, decodedData);
-      } else if (res.statusCode == 200) {
-        _swapEditedElement(container, decodedData);
-      } else if (decodedData['detail'] != null) {
-        throw HttpException(decodedData['detail']);
-
-        /// you can throw 'Text'; base on a list of conditions WITHOUT using "HttpException", BUT catch (error) in the place that call "Register() function" can't distinguish between general errors and HttpException errors
-        // throw 'Registration failed';
-      }
-      // else if (decodedData.toString().contains('username already exists')) {
-      //   throw HttpException(decodedData.toString());
-      // }
-      else {
-        throw '$decodedData';
-      }
-    } catch (e) {
-      print('ee: $e');
-      rethrow;
-    }
-  }
-
-  Future<void> deleteBasic(String bn, String id) async {
-    final Map<String, dynamic> epi = getTypeInfo(bn);
-    String endpoint = epi['endpoint'] + '$id/';
-    List<dynamic> container = epi['container'];
-
-    final Map<String, String> headers = {
-      "Authorization": "Bearer $authToken",
-      "content-type": "application/json",
-      "accept": "application/json",
-    };
-
-    try {
-      final http.Response res =
-          await http.delete(Uri.parse(endpoint), headers: headers);
-      // final decodedData = jsonDecode(res.body); // NOT DO IT, because if res.statusCode == 204, "res.body is empty" AND raise error
-
-      if (res.statusCode == 204) {
-        _removeElement(container, id);
-      } else if (jsonDecode(res.body)['detail'] != null) {
-        throw HttpException(jsonDecode(res.body)['detail']);
-      } else {
-        throw '${jsonDecode(res.body)}';
-      }
-    } catch (e) {
-      // print('e: $e');
-      rethrow;
-    }
   }
 
   List<Map<String, dynamic>> _docHistoryMaps = [];

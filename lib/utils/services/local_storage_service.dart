@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/core.dart';
-
 class LocalStorageService {
   /*
   https://www.youtube.com/watch?v=w8cZKm9s228
@@ -168,7 +166,7 @@ class LocalStorageService {
         value = jsonEncode(newList);
       }
       await _localStorageBox.put(_keyMyQuestions, value);
-      Provider.of<Core>(context, listen: false).removeInMyQuestion(id);
+      // Provider.of<Core>(context, listen: false).removeInMyQuestion(id);
     } catch (e) {
       print('Error removing question: $e');
     }

@@ -22,9 +22,10 @@ class MenuListTile extends StatelessWidget {
     const selectedColor = Colors.black;
     final style = isSelected
         ? const TextStyle(
-            fontSize: 18,
+            fontSize: 16,
             color: selectedColor,
-            fontWeight: FontWeight.bold,
+            // fontWeight: FontWeight.bold,
+            fontFamily: 'Plex Sans Bold',
           )
         : const TextStyle(fontSize: 18);
 

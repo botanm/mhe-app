@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../providers/auth.dart';
 import '../../providers/basics.dart';
-import '../../providers/core.dart';
 import '../../providers/i18n.dart';
 import '../../utils/services/http_exception.dart';
 import '../../utils/utils.dart';
@@ -32,7 +31,6 @@ class _SalarySearchFormState extends State<SalarySearchForm> {
   late final i18n i;
   late final Auth apr;
   late final Basics bpr;
-  late final Core cpr;
 
   @override
   void didChangeDependencies() {
@@ -40,7 +38,6 @@ class _SalarySearchFormState extends State<SalarySearchForm> {
       i = Provider.of<i18n>(context, listen: false);
       apr = Provider.of<Auth>(context, listen: false);
       bpr = Provider.of<Basics>(context, listen: false);
-      cpr = Provider.of<Core>(context, listen: false);
     }
     _isInit = false;
     super.didChangeDependencies();

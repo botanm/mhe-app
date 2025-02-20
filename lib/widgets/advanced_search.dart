@@ -26,7 +26,9 @@ class _AdvancedSearchState extends State<AdvancedSearch> {
         Text(
           title,
           style: TextStyle(
-              fontSize: isMobile ? 16 : 18, fontWeight: FontWeight.bold),
+            fontSize: isMobile ? 16 : 18,
+            fontFamily: 'Plex Sans Medium',
+          ),
         ),
         Expanded(
           child: Padding(

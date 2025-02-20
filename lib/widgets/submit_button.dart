@@ -48,7 +48,11 @@ class SubmitButton extends StatelessWidget {
               isSubmitButtonDisabled ? disabledText ?? '' : text,
               style: keepOrigin
                   ? null
-                  : const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  : const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Plex Sans Regular',
+                    ),
             ),
             const Spacer(),
             if (isSubmitButtonDisabled)

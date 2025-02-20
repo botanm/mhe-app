@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../../providers/auth.dart';
 import '../../../providers/basics.dart';
 import '../../../providers/i18n.dart';
-import '../../../providers/core.dart';
 import '../../../utils/utils.dart';
 import '../../../widgets/setting_group.dart';
 import '../../../widgets/menu_picker.dart';
@@ -19,7 +18,6 @@ class AccountPreferencesScreen extends StatelessWidget {
     // print('*************** settings_screen build ***************');
     final i = Provider.of<i18n>(context, listen: false);
     final bpr = Provider.of<Basics>(context, listen: false);
-    final qpr = Provider.of<Core>(context, listen: false);
     final auth = Provider.of<Auth>(context, listen: false);
 
     // final List<dynamic> _dialects = bpr.dialects;
