@@ -1,4 +1,4 @@
-package com.example.mhe_app_1xx
+package com.kardo.mhe
 
 import io.flutter.embedding.android.FlutterActivity
 
