@@ -26,7 +26,6 @@ class Basics with ChangeNotifier {
   List<dynamic> rewards = [];
   List<dynamic> researches = [];
   List<dynamic> _searchedDocTrackingData = [];
-
   static List<dynamic> _branches = [];
 
   List<dynamic> get branches => [..._branches];
@@ -678,7 +677,10 @@ class Basics with ChangeNotifier {
           'https://test.erp.mohe.gov.krd/Mobile/Default/all-branches'));
       final String utf8DecodedData = utf8.decode(res.bodyBytes);
       // final decodedData = jsonDecode(res.body); // can't decode arabic or kurdish or Latin characters
-      _branches = jsonDecode(utf8DecodedData);
+      final List<dynamic> decodedData = jsonDecode(utf8DecodedData);
+      decodedData.removeWhere((branch) =>
+          branch['name'] == "دیوانی وەزارەت" && branch['parent_id'] != null);
+      _branches = decodedData;
     } catch (e) {
       rethrow;
     }
