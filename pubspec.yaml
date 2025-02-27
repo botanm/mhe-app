@@ -1,7 +1,7 @@
 name: mohe_app_1_x_x
 description: "A new Flutter project."
 publish_to: 'none'
-version: 4.0.0+30
+version: 4.0.0+31
 
 environment:
   sdk: ^3.5.3

@@ -25,7 +25,7 @@ void main() async {
 
 Future<List<dynamic>> _initializeApp() async {
   // Initialize essential services
-  await Hive.initFlutter();
+  // await Hive.initFlutter();
   await LocalStorageService.initialize(); // Initialize Hive
 
   final i18nInstance = i18n();
@@ -34,9 +34,10 @@ Future<List<dynamic>> _initializeApp() async {
 
   // Run independent operations in parallel to reduce load time
   await Future.wait([
+    // LocalStorageService.initialize(), // Initialize Hive
     authInstance.tryAutoLogin(),
     i18nInstance.i18nInit(),
-    basicsInstance.initialBasicsFetchAndSet(),
+    // basicsInstance.initialBasicsFetchAndSet(),
   ]);
 
   return [i18nInstance, authInstance, basicsInstance];

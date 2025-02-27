@@ -14,7 +14,7 @@ import '../../widgets/menu_picker.dart';
 import '../../widgets/responsive.dart';
 import '../core/settings/settings_screen.dart';
 import '../mohe-app/document_tracking_screen.dart';
-import '../landing_screen.dart';
+import '../employee_screen.dart';
 import 'components/side_menu.dart';
 
 class MainScreen extends StatefulWidget {
@@ -89,7 +89,7 @@ class _MainScreenState extends State<MainScreen> {
         "label": i.tr('Home'),
         "icon": Icons.house_outlined,
         "selectedIcon": Icons.house,
-        "screen": const LandingScreen(),
+        "screen": const EmployeeScreen(),
         "search": w < 750 ? const SizedBox.shrink() : mainPageTitle,
       },
       // {

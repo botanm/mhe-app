@@ -18,7 +18,7 @@ import 'mohe-app/reward_screen.dart';
 import 'mohe-app/salary_screen.dart';
 import 'mohe-app/thanks_letter_screen.dart';
 
-class LandingScreen extends StatelessWidget {
+class EmployeeScreen extends StatelessWidget {
   // Define the menu items with their respective icons, labels, and colors
   static const List<Map<String, dynamic>> menuItems = [
     {
@@ -123,10 +123,12 @@ class LandingScreen extends StatelessWidget {
     // Add more items with different colors as needed
   ];
 
-  const LandingScreen({super.key});
+  const EmployeeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    print(
+        '++++++++++++++++++++++++     EmployeeScreen build     ++++++++++++++++++++++++');
     final isAuth = Provider.of<Auth>(context).isAuth;
     return Scaffold(
       // backgroundColor: Colors.grey[200], // Background color to match Facebook app

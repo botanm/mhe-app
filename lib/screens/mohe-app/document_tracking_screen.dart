@@ -44,8 +44,11 @@ class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
   }
 
   Future<void> _runFetchAndSetInitialBasics() async {
-    await bpr.fetchAndSetDocHistoryMaps();
-    await bpr.fetchDocHistorys();
+    // await Future.wait([
+    //   bpr.initialBasicsFetchAndSet(),
+    //   bpr.fetchAndSetDocHistoryMaps(),
+    //   bpr.fetchDocHistorys(),
+    // ]);
 
     return;
   }

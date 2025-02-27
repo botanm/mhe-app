@@ -85,7 +85,7 @@ class i18n with ChangeNotifier {
   };
 
   Future<void> i18nInit() async {
-    await fetchLocale();
+    // await fetchLocale();
     await loadCurrentLocale();
   }
 
