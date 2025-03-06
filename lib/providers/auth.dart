@@ -53,11 +53,9 @@ class Auth with ChangeNotifier {
 
     if (authData.isNotEmpty) {
       // print(" if (authData.isNotEmpty)");
-      // endpoint = Uri.parse(endpoints.login);
-      endpoint = Uri.parse('https://test.erp.mohe.gov.krd/Mobile/auth/Login/');
+      endpoint = Uri.parse(endpoints.login);
       request = http.MultipartRequest(method, endpoint);
 
-      // request.fields['BiometricCode'] = authData['username']; // TODO: Delete me later
       request.fields['Email'] = authData['username'];
       request.fields['Password'] = authData['password'];
     }
@@ -142,10 +140,7 @@ class Auth with ChangeNotifier {
 
   Future<void> fetchAndSetMe() async {
     // var me = await http.get(Uri.parse(endpoints.me),headers: {'Authorization': 'Bearer $_token'});
-    // var me = await http.get(Uri.parse('${endpoints.me}$_userId'));
-    var me = await http.get(Uri.parse(
-        'https://test.erp.mohe.gov.krd/Mobile/Default/GetEmployeeInfo/${_userId}'));
-
+    var me = await http.get(Uri.parse('${endpoints.me}$_userId'));
     final String utf8DecodedData = utf8.decode(me.bodyBytes);
     // final Map<String, dynamic> decotedMe = jsonDecode(me.body); // can't decode arabic or kurdish or Latin characters
     final Map<String, dynamic> decotedMe = jsonDecode(utf8DecodedData);
@@ -267,9 +262,8 @@ class Auth with ChangeNotifier {
   Future<String?> registerFirstStepGetEmployeeId(
       Map<String, dynamic> body) async {
     try {
-      // var endpoint = Uri.parse(endpoints.registerFirstStepORgetEmployeeId);
-      var endpoint = Uri.parse(
-          'https://test.erp.mohe.gov.krd/mobile/auth/RegisterFirstStep');
+      var endpoint = Uri.parse(endpoints.registerFirstStepORgetEmployeeId);
+
       String method = 'POST';
       http.MultipartRequest request = http.MultipartRequest(method, endpoint);
 
@@ -296,9 +290,7 @@ class Auth with ChangeNotifier {
   Future<String?> registerSecondStepSetPassword(
       Map<String, dynamic> body) async {
     try {
-      // var endpoint = Uri.parse(endpoints.registerSecondStepSetPassword);
-      var endpoint = Uri.parse(
-          'https://test.erp.mohe.gov.krd/mobile/auth/RegisterSecondStep');
+      var endpoint = Uri.parse(endpoints.registerSecondStepSetPassword);
       String method = 'POST';
       http.MultipartRequest request = http.MultipartRequest(method, endpoint);
 

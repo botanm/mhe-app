@@ -37,20 +37,20 @@ class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
     if (_isInit) {
       bpr = Provider.of<Basics>(context);
       i = Provider.of<i18n>(context, listen: false);
-      _futureInstance = _runFetchAndSetInitialBasics();
+      _runFetchAndSetInitialBasics();
     }
     _isInit = false;
     super.didChangeDependencies();
   }
 
   Future<void> _runFetchAndSetInitialBasics() async {
-    // await Future.wait([
-    //   bpr.initialBasicsFetchAndSet(),
-    //   bpr.fetchAndSetDocHistoryMaps(),
-    //   bpr.fetchDocHistorys(),
-    // ]);
-
-    return;
+    setState(() => _isLoading = true);
+    await Future.wait([
+      bpr.initialBasicsFetchAndSet(),
+      bpr.fetchAndSetDocHistoryMaps(),
+      bpr.fetchDocHistorys(),
+    ]);
+    setState(() => _isLoading = false);
   }
 
   @override
@@ -63,96 +63,87 @@ class _DocumentTrackingScreenState extends State<DocumentTrackingScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          child: FutureBuilder(
-            future: _futureInstance,
-            builder: (ctx, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else {
-                return Column(
-                  children: [
-                    const SizedBox(height: 12),
-                    const ColorfulLine(
-                      height: 2,
-                      colors: [
-                        kPrimaryLightColor,
-                        kPrimaryMediumColor,
-                        kPrimaryColor,
-                        Colors.orange,
-                      ],
-                    ),
-                    // History Search Option
-                    // _buildOptionCard(
-                    //   context: context,
-                    //   icon: Icons.history,
-                    //   title: 'نوسراوەکانی پێشتر',
-                    //   subtitle: 'ئەو نوسراوانەی پێشتر بەدوای گەڕاوی',
-                    //   onTap: () {},
-                    // ),
-
-                    // Manual Enter Document Data Option
-                    _buildOptionCard(
-                      context: context,
-                      icon: Icons.edit,
-                      title: 'گەڕانی نوسراو',
-                      subtitle: 'زانیاری نوسراو بنوسە',
-                      onTap: () {
-                        DocSearchForm qrAndBarCode = DocSearchForm(
-                          onSelect: (Map<String, dynamic> docSearchData) {
-                            _onSubmit(docSearchData);
-                          },
-                        );
-                        _onTap(context, qrAndBarCode, "گەڕانی نوسراو");
-                      },
-                    ),
-
-                    // QR and Barcode Scanner Option
-                    _buildOptionCard(
-                      context: context,
-                      icon: Icons.qr_code_scanner,
-                      title: 'کیو ئاڕکۆد',
-                      subtitle: 'نوسراوەکە سکان بکە',
-                      onTap: () {
-                        QRBarcodeScannerScreen qrandBarCode =
-                            QRBarcodeScannerScreen(
-                          onDetect: (BarcodeCapture capture) {
-                            final List<Barcode> barcodes = capture.barcodes;
-                            final Barcode barcode = barcodes.first;
-                            final code = barcode.rawValue ?? '---';
-
-                            Map<String, String>? urlData =
-                                Utils.extractDocSearchUrlData(code);
-                            if (urlData != null) {
-                              _onSubmit(urlData);
-                              Navigator.pop(context);
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(
-                                content: Text('کۆدەکەت دروست نییە'),
-                              ));
-                            }
-                          },
-                        );
-                        _onTap(context, qrandBarCode, "کیوئاڕکۆد");
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    _buildHistoryMenuPicker,
-
-                    const SizedBox(height: 16),
-                    const DocumentTrackingStepper(),
-                    if (bpr.searchedDocTrackingData.isNotEmpty)
-                      _buildToggleHistoryStatus(),
-                    const SizedBox(height: 16),
-                  ],
-                );
-              }
-            },
-          ),
+          child: _buildContent(context),
         ),
       ),
+    );
+  }
+
+  Column _buildContent(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 12),
+        const ColorfulLine(
+          height: 2,
+          colors: [
+            kPrimaryLightColor,
+            kPrimaryMediumColor,
+            kPrimaryColor,
+            Colors.orange,
+          ],
+        ),
+        // History Search Option
+        // _buildOptionCard(
+        //   context: context,
+        //   icon: Icons.history,
+        //   title: 'نوسراوەکانی پێشتر',
+        //   subtitle: 'ئەو نوسراوانەی پێشتر بەدوای گەڕاوی',
+        //   onTap: () {},
+        // ),
+
+        // Manual Enter Document Data Option
+        if (!_isLoading)
+          _buildOptionCard(
+            context: context,
+            icon: Icons.edit,
+            title: 'گەڕانی نوسراو',
+            subtitle: 'زانیاری نوسراو بنوسە',
+            onTap: () {
+              DocSearchForm qrAndBarCode = DocSearchForm(
+                onSelect: (Map<String, dynamic> docSearchData) {
+                  _onSubmit(docSearchData);
+                },
+              );
+              _onTap(context, qrAndBarCode, "گەڕانی نوسراو");
+            },
+          ),
+
+        // QR and Barcode Scanner Option
+        _buildOptionCard(
+          context: context,
+          icon: Icons.qr_code_scanner,
+          title: 'کیو ئاڕکۆد',
+          subtitle: 'نوسراوەکە سکان بکە',
+          onTap: () {
+            QRBarcodeScannerScreen qrandBarCode = QRBarcodeScannerScreen(
+              onDetect: (BarcodeCapture capture) {
+                final List<Barcode> barcodes = capture.barcodes;
+                final Barcode barcode = barcodes.first;
+                final code = barcode.rawValue ?? '---';
+
+                Map<String, String>? urlData =
+                    Utils.extractDocSearchUrlData(code);
+                if (urlData != null) {
+                  _onSubmit(urlData);
+                  Navigator.pop(context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('کۆدەکەت دروست نییە'),
+                  ));
+                }
+              },
+            );
+            _onTap(context, qrandBarCode, "کیوئاڕکۆد");
+          },
+        ),
+        const SizedBox(height: 8),
+        _buildHistoryMenuPicker,
+
+        const SizedBox(height: 16),
+        const DocumentTrackingStepper(),
+        if (bpr.searchedDocTrackingData.isNotEmpty) _buildToggleHistoryStatus(),
+        const SizedBox(height: 16),
+      ],
     );
   }
 
